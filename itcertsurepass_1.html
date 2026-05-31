@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ITCertSurePass — Pass Your IT Certification First Try</title>
+<script src="https://js.stripe.com/v3/"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0b1728;
+  --navy2:#112240;
+  --blue:#1d4ed8;
+  --blue2:#2563eb;
+  --cyan:#0ea5e9;
+  --purple:#7c3aed;
+  --green:#059669;
+  --gold:#d97706;
+  --red:#dc2626;
+  --white:#fff;
+  --panel:#f8faff;
+  --panel2:#eff6ff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --r:10px;
+  --r2:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Inter",sans-serif;background:var(--panel);color:var(--text);line-height:1.6;min-height:100vh}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+.hidden{display:none!important}
+.view{display:none}.view.active{display:block}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--navy);padding:0 40px;height:66px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.logo-wrap{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#0ea5e9);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-text{font-family:"Outfit",sans-serif;font-weight:900;font-size:1.15rem;color:#fff;letter-spacing:-.02em}
+.logo-text .sp{color:#38bdf8}
+.topbar-links{display:flex;align-items:center;gap:4px}
+.topbar-links button{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.58);font-family:"Inter",sans-serif;font-size:.85rem;font-weight:500;padding:7px 15px;border-radius:6px;transition:color .2s,background .2s}
+.topbar-links button:hover,.topbar-links button.tnav-active{color:#fff;background:rgba(255,255,255,.07)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.nav-login-btn{background:transparent;border:1.5px solid rgba(255,255,255,.22);color:rgba(255,255,255,.75);font-family:"Inter",sans-serif;font-size:.83rem;font-weight:600;padding:7px 16px;border-radius:8px;cursor:pointer;transition:all .2s}
+.nav-login-btn:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.nav-cta-btn{background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff;font-family:"Inter",sans-serif;font-size:.83rem;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;transition:opacity .2s,transform .2s}
+.nav-cta-btn:hover{opacity:.9;transform:translateY(-1px)}
+.user-chip{display:none;align-items:center;gap:8px}
+.user-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#0ea5e9);display:grid;place-items:center;font-weight:700;font-size:.78rem;color:#fff;flex-shrink:0}
+.user-name-lbl{color:rgba(255,255,255,.75);font-size:.83rem;font-weight:500}
+.ham{display:none;background:none;border:none;cursor:pointer;padding:4px;color:rgba(255,255,255,.7)}
+.mob-menu{display:none;position:fixed;inset:66px 0 0;background:var(--navy2);z-index:200;padding:20px 24px;overflow-y:auto}
+.mob-menu.open{display:block}
+.mob-menu button{display:block;width:100%;text-align:left;background:none;border:none;color:rgba(255,255,255,.6);font-family:"Inter",sans-serif;font-size:.95rem;font-weight:500;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07);cursor:pointer}
+.mob-menu button:hover{color:#fff}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border-radius:var(--r);font-family:"Inter",sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:all .22s;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.4)}
+.btn-green{background:linear-gradient(135deg,#059669,#10b981);color:#fff;box-shadow:0 4px 14px rgba(5,150,105,.28)}
+.btn-green:hover{transform:translateY(-2px)}
+.btn-gold{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;box-shadow:0 4px 14px rgba(217,119,6,.28)}
+.btn-gold:hover{transform:translateY(-2px)}
+.btn-outline{background:transparent;border:2px solid var(--blue2);color:var(--blue2)}
+.btn-outline:hover{background:var(--blue2);color:#fff}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--blue2);color:var(--blue2)}
+.btn-lg{padding:15px 38px;font-size:1rem}
+.btn-sm{padding:8px 16px;font-size:.82rem}
+.btn-full{width:100%}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(150deg,#0b1728 0%,#0f2044 55%,#1a3a6b 100%);padding:88px 40px 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:80px;background:linear-gradient(to top,var(--panel),transparent)}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.28);color:#38bdf8;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:26px}
+.hero-badge .dot{width:7px;height:7px;background:#38bdf8;border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:"Outfit",sans-serif;font-weight:900;font-size:clamp(2.4rem,5.5vw,4rem);letter-spacing:-.035em;color:#fff;margin-bottom:20px;line-height:1.06}
+.hero h1 .hl{background:linear-gradient(90deg,#38bdf8,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:rgba(255,255,255,.6);font-size:1.05rem;max-width:600px;margin:0 auto 38px;line-height:1.75}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+.cert-badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:56px}
+.cert-badge-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.75);font-size:.78rem;font-weight:600;padding:7px 14px;border-radius:20px;transition:all .2s;cursor:pointer}
+.cert-badge-pill:hover{background:rgba(255,255,255,.13);color:#fff;border-color:rgba(255,255,255,.25)}
+.cert-badge-pill .cert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hero-stats{display:flex;gap:0;justify-content:center;flex-wrap:wrap;max-width:640px;margin:0 auto;border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;backdrop-filter:blur(4px)}
+.h-stat{flex:1;padding:18px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.1);min-width:120px}
+.h-stat:last-child{border-right:none}
+.h-stat .n{font-family:"Outfit",sans-serif;font-weight:900;font-size:1.9rem;color:#fff;display:block;letter-spacing:-.03em}
+.h-stat .l{font-size:.72rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em}
+
+/* ── CERTS GRID ── */
+.certs-section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.section-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue2);margin-bottom:10px;display:block}
+.section-h{font-family:"Outfit",sans-serif;font-weight:900;font-size:clamp(1.8rem,3.5vw,2.6rem);letter-spacing:-.03em;line-height:1.12;margin-bottom:14px}
+.section-h em{font-style:normal;color:var(--blue2)}
+.section-p{color:var(--muted);max-width:580px;margin-bottom:48px;font-size:.975rem;line-height:1.75}
+.cert-vendor-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.v-tab{background:#fff;border:1.5px solid var(--border);color:var(--muted);font-family:"Inter",sans-serif;font-size:.82rem;font-weight:600;padding:8px 18px;border-radius:20px;cursor:pointer;transition:all .2s}
+.v-tab:hover{border-color:var(--blue2);color:var(--blue2)}
+.v-tab.active{background:var(--blue2);border-color:var(--blue2);color:#fff}
+.certs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cert-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r2);padding:0;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;cursor:pointer;display:flex;flex-direction:column}
+.cert-card:hover{border-color:var(--blue2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(37,99,235,.1)}
+.cert-card-header{padding:24px 24px 18px;display:flex;align-items:flex-start;gap:14px}
+.cert-vendor-logo{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:"Outfit",sans-serif;font-weight:900;font-size:.85rem;color:#fff;text-align:center;line-height:1.1}
+.cert-card-info{flex:1;min-width:0}
+.cert-name{font-weight:800;font-size:1rem;color:var(--text);margin-bottom:3px;line-height:1.25;font-family:"Outfit",sans-serif}
+.cert-vendor-name{font-size:.75rem;color:var(--muted);font-weight:500}
+.cert-card-body{padding:0 24px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
+.cert-card-desc{color:var(--muted);font-size:.85rem;line-height:1.65;flex:1}
+.cert-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.cert-chip{font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid}
+.cert-card-footer{border-top:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:var(--panel)}
+.cert-price{font-family:"Outfit",sans-serif;font-weight:900;font-size:1.2rem;color:var(--blue2)}
+.cert-price .free-tag{font-size:.72rem;font-weight:600;color:var(--green);background:#d1fae5;padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:4px}
+.cert-coming{font-size:.75rem;font-weight:600;color:var(--gold);background:#fef3c7;padding:3px 10px;border-radius:20px;border:1px solid #fde68a}
+.cert-avail{font-size:.75rem;font-weight:700;color:var(--green)}
+
+/* ── HOW IT WORKS ── */
+.how-section{background:var(--navy);padding:80px 40px}
+.how-inner{max-width:1100px;margin:0 auto}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.how-steps::before{content:"";position:absolute;top:32px;left:calc(12.5%);right:calc(12.5%);height:2px;background:linear-gradient(90deg,#2563eb,#0ea5e9,#a78bfa);z-index:0;opacity:.4}
+.how-step{text-align:center;padding:0 16px;position:relative;z-index:1}
+.step-num{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,#0ea5e9);display:flex;align-items:center;justify-content:center;font-family:"Outfit",sans-serif;font-weight:900;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(37,99,235,.35)}
+.how-step h4{font-weight:700;font-size:.95rem;color:#fff;margin-bottom:8px}
+.how-step p{color:rgba(255,255,255,.5);font-size:.83rem;line-height:1.6}
+
+/* ── FEATURES ── */
+.features-section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r2);padding:30px;transition:border-color .2s,transform .2s,box-shadow .2s}
+.feat-card:hover{border-color:var(--blue2);transform:translateY(-3px);box-shadow:0 10px 32px rgba(37,99,235,.09)}
+.feat-icon{width:50px;height:50px;border-radius:12px;background:var(--panel2);display:grid;place-items:center;margin-bottom:16px;color:var(--blue2)}
+.feat-card h3{font-weight:700;font-size:1rem;margin-bottom:8px}
+.feat-card p{color:var(--muted);font-size:.875rem;line-height:1.67}
+
+/* ── PRICING ── */
+.pricing-section{background:var(--navy);padding:80px 40px}
+.pricing-inner{max-width:960px;margin:0 auto;text-align:center}
+.pricing-inner .section-h{color:#fff}
+.pricing-inner .section-p{color:rgba(255,255,255,.5);margin-left:auto;margin-right:auto}
+.plans-grid{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:20px;max-width:860px;margin:0 auto;align-items:start}
+.plan-card{border-radius:var(--r2);padding:30px 26px;text-align:left;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);transition:border-color .3s}
+.plan-card.featured{background:linear-gradient(160deg,rgba(37,99,235,.25),rgba(14,165,233,.12));border-color:rgba(37,99,235,.55);position:relative}
+.plan-card.featured::before{content:"Most Popular";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,#2563eb,#0ea5e9);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:4px 16px;border-radius:20px;white-space:nowrap}
+.plan-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:8px}
+.plan-name{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.2rem;color:#fff;margin-bottom:14px}
+.plan-price{font-family:"Outfit",sans-serif;font-weight:900;font-size:2.8rem;color:#fff;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.plan-price sup{font-size:1.2rem;vertical-align:top;margin-top:6px}
+.plan-price .per{font-size:.9rem;font-weight:400;color:rgba(255,255,255,.4)}
+.plan-note{color:rgba(255,255,255,.4);font-size:.8rem;margin-bottom:22px}
+.plan-feats{display:flex;flex-direction:column;gap:10px;margin-bottom:26px}
+.plan-feat{display:flex;align-items:flex-start;gap:9px;font-size:.875rem;color:rgba(255,255,255,.72)}
+.plan-feat .ck{color:#0ea5e9;font-weight:700;flex-shrink:0;font-size:.9rem;margin-top:1px}
+.plan-feat .xx{color:rgba(255,255,255,.3);flex-shrink:0;font-size:.9rem;margin-top:1px}
+.plan-feat.na{color:rgba(255,255,255,.3);text-decoration:line-through}
+
+/* ── TESTIMONIALS ── */
+.testi-section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.testi-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r2);padding:28px;display:flex;flex-direction:column;gap:14px}
+.stars{color:#f59e0b;font-size:.9rem;letter-spacing:2px}
+.testi-text{color:var(--muted);font-size:.9rem;line-height:1.72;font-style:italic;flex:1}
+.testi-author{display:flex;align-items:center;gap:11px}
+.t-av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}
+.t-name{font-weight:700;font-size:.88rem}
+.t-role{color:var(--muted);font-size:.76rem;margin-top:1px}
+
+/* ── FAQ ── */
+.faq-section{background:var(--panel2);padding:72px 40px}
+.faq-inner{max-width:720px;margin:0 auto}
+.faq-item{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.faq-q{padding:18px 20px;font-weight:600;font-size:.925rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.faq-q:hover{background:var(--panel)}
+.faq-q .arrow{transition:transform .25s;color:var(--muted);font-size:.85rem}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 20px 18px;color:var(--muted);font-size:.88rem;line-height:1.72}
+.faq-item.open .faq-a{display:block}
+
+/* ── CTA BAND ── */
+.cta-band{background:linear-gradient(135deg,#0f2044,#1a3a6b);padding:80px 40px;text-align:center;position:relative;overflow:hidden}
+.cta-band::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.cta-band h2{font-family:"Outfit",sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);color:#fff;letter-spacing:-.03em;margin-bottom:14px;position:relative}
+.cta-band p{color:rgba(255,255,255,.55);font-size:1rem;max-width:500px;margin:0 auto 36px;position:relative}
+.cta-band .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ── FOOTER ── */
+.footer{background:var(--navy);padding:56px 40px 28px;border-top:1px solid rgba(255,255,255,.07)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{color:rgba(255,255,255,.4);font-size:.85rem;margin-top:12px;max-width:260px;line-height:1.7}
+.footer-col h4{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:14px}
+.footer-col li+li{margin-top:8px}
+.footer-col a{color:rgba(255,255,255,.4);font-size:.85rem;transition:color .2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{color:rgba(255,255,255,.25);font-size:.78rem}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:none;place-items:center;padding:20px;backdrop-filter:blur(5px)}
+.modal-overlay.open{display:grid}
+.modal{background:#fff;border-radius:20px;padding:38px;max-width:490px;width:100%;box-shadow:0 28px 72px rgba(0,0,0,.22);position:relative;max-height:92vh;overflow-y:auto}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.4rem;line-height:1;padding:4px;transition:color .2s}
+.modal-close:hover{color:var(--text)}
+.modal-logo{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.modal h2{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:6px;letter-spacing:-.02em}
+.modal .sub{color:var(--muted);font-size:.875rem;margin-bottom:26px;line-height:1.6}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.75rem;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.fg input,.fg select{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:12px 14px;font-family:"Inter",sans-serif;font-size:.9rem;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;background:#fff}
+.fg input:focus,.fg select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:.82rem}
+.modal-divider::before,.modal-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.pay-methods{display:flex;gap:10px;margin-bottom:20px}
+.pm-btn{flex:1;padding:11px;border:1.5px solid var(--border);border-radius:9px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-size:.83rem;font-weight:600;color:var(--muted);transition:all .2s}
+.pm-btn.active{border-color:var(--blue2);color:var(--blue2);background:var(--panel2)}
+.card-3col{display:grid;grid-template-columns:1fr 80px 80px;gap:10px}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--border);margin-top:16px}
+.total-row .tl{font-weight:700;font-size:.9rem}
+.total-row .ta{font-family:"Outfit",sans-serif;font-weight:900;font-size:1.5rem;color:var(--blue2)}
+.secure-note{display:flex;align-items:center;gap:6px;background:var(--panel);border-radius:7px;padding:8px 12px;font-size:.78rem;color:var(--muted);margin-top:12px}
+#stripe-card-element.StripeElement--focus{border-color:#2563eb!important;box-shadow:0 0 0 3px rgba(37,99,235,.1)!important}
+#stripe-card-element.StripeElement--invalid{border-color:#dc2626!important}
+.err-msg{color:var(--red);font-size:.81rem;margin-top:5px;display:none}
+.link-btn{color:var(--blue2);font-size:.85rem;cursor:pointer;font-weight:600;background:none;border:none;text-decoration:underline}
+.success-wrap{text-align:center;padding:12px 0}
+.success-icon{width:68px;height:68px;border-radius:50%;background:#d1fae5;display:grid;place-items:center;margin:0 auto 18px;font-size:2rem}
+.paypal-box{background:var(--panel);border:1.5px solid var(--border);border-radius:10px;padding:28px;text-align:center}
+.paypal-logo{font-size:2.2rem;margin-bottom:10px}
+
+/* ── EXAM ENGINE ── */
+.exam-wrap{max-width:860px;margin:0 auto;padding:28px 24px 72px}
+.exam-topbar{background:#fff;border-radius:var(--r2);padding:18px 24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,0,0,.06);gap:16px;flex-wrap:wrap}
+.exam-title h2{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.1rem;color:var(--navy);margin-bottom:2px}
+.exam-title p{color:var(--muted);font-size:.78rem}
+.exam-counters{display:flex;gap:20px;flex-wrap:wrap}
+.ecnt .v{font-family:"Outfit",sans-serif;font-weight:900;font-size:1.3rem;color:var(--blue2);display:block}
+.ecnt .l{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.prog-wrap{background:#e5e7eb;height:5px;border-radius:99px;overflow:hidden;margin-bottom:16px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#2563eb,#0ea5e9);border-radius:99px;transition:width .4s}
+.q-nav-dots{background:#fff;border-radius:var(--r);padding:14px 18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.dots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:5px}
+.qdot{height:28px;border-radius:5px;background:var(--border);cursor:pointer;display:grid;place-items:center;font-size:.69rem;font-weight:700;color:var(--muted);transition:all .2s}
+.qdot:hover{background:var(--panel2);color:var(--blue2)}
+.qdot.cur{outline:2px solid var(--blue2);outline-offset:1px}
+.qdot.ans{background:var(--blue2);color:#fff}
+.qdot.kor{background:#10b981;color:#fff}
+.qdot.err{background:#ef4444;color:#fff}
+.qcard{background:#fff;border-radius:var(--r2);padding:30px;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:16px}
+.qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.q-no{font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.q-cert-badge{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid}
+.q-text{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:22px;line-height:1.67}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{border:1.5px solid var(--border);background:#fafbfc;border-radius:10px;padding:13px 16px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:all .18s;font-size:.9rem;user-select:none}
+.opt:hover:not(.disabled){border-color:#93c5fd;background:#eff6ff}
+.opt-key{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;transition:all .18s}
+.opt.sel .opt-key{background:var(--blue2);border-color:var(--blue2);color:#fff}
+.opt.kor{border-color:#10b981;background:#d1fae5!important}.opt.kor .opt-key{background:#10b981;border-color:#10b981;color:#fff}
+.opt.err{border-color:#ef4444;background:#fee2e2!important}.opt.err .opt-key{background:#ef4444;border-color:#ef4444;color:#fff}
+.opt.disabled{cursor:default}
+.expl{background:var(--panel2);border-left:4px solid var(--blue2);padding:14px 16px;border-radius:0 8px 8px 0;margin-top:14px;font-size:.875rem;line-height:1.72;display:none}
+.expl.show{display:block}
+.q-actions{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap;justify-content:space-between}
+.locked-wall{text-align:center;padding:40px 24px;background:linear-gradient(to bottom,rgba(248,250,255,0),#f8faff 30%);margin-top:-50px;position:relative;z-index:2}
+.locked-wall .lk-icon{font-size:2.8rem;margin-bottom:14px}
+.locked-wall h3{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:10px;color:var(--navy)}
+.locked-wall p{color:var(--muted);font-size:.9rem;max-width:400px;margin:0 auto 22px;line-height:1.7}
+.res-card{background:#fff;border-radius:var(--r2);padding:36px;box-shadow:0 1px 6px rgba(0,0,0,.06);text-align:center}
+.score-ring{width:128px;height:128px;border-radius:50%;border:7px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 22px;font-family:"Outfit",sans-serif}
+.score-ring.pass{border-color:#10b981;background:#d1fae5}
+.score-ring.fail{border-color:#ef4444;background:#fee2e2}
+.score-ring .sp{font-size:2.1rem;font-weight:900;line-height:1}
+.score-ring .sl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:2px}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.rs{background:var(--panel);border-radius:9px;padding:14px;text-align:center}
+.rs .rv{font-family:"Outfit",sans-serif;font-weight:900;font-size:1.5rem;color:var(--navy)}
+.rs .rl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.upsell-box{background:var(--panel2);border:1.5px solid var(--border);border-radius:10px;padding:22px;margin-bottom:22px}
+
+/* ── DASHBOARD ── */
+.dash-wrap{max-width:1040px;margin:0 auto;padding:32px 24px 72px}
+.dash-hero-card{background:linear-gradient(135deg,var(--navy),#1a3a6b);border-radius:var(--r2);padding:30px 36px;margin-bottom:24px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.dash-hero-card h2{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:4px}
+.dash-hero-card p{color:rgba(255,255,255,.55);font-size:.88rem}
+.dash-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.dst{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:20px;text-align:center}
+.dst .dv{font-family:"Outfit",sans-serif;font-weight:900;font-size:2rem;color:var(--blue2)}
+.dst .dl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.cert-select-section{background:#fff;border:1.5px solid var(--border);border-radius:var(--r2);padding:28px;margin-bottom:20px}
+.cert-select-section h3{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:18px}
+.cert-select-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cert-sel-btn{border:1.5px solid var(--border);border-radius:10px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;background:#fff}
+.cert-sel-btn:hover,.cert-sel-btn.active{border-color:var(--blue2);background:var(--panel2)}
+.cert-sel-btn .cs-logo{width:40px;height:40px;border-radius:8px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-family:"Outfit",sans-serif;font-weight:900;font-size:.75rem;color:#fff}
+.cert-sel-btn .cs-name{font-size:.78rem;font-weight:600;color:var(--text);line-height:1.3}
+.cert-sel-btn.coming-soon{opacity:.55;cursor:default}
+.cert-sel-btn.coming-soon:hover{border-color:var(--border);background:#fff}
+.coming-label{font-size:.62rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.modes-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mode-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:22px;cursor:pointer;transition:all .2s;text-align:center}
+.mode-card:hover{border-color:var(--blue2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.09)}
+.mode-icon{font-size:1.8rem;margin-bottom:8px}
+.mode-card h4{font-weight:700;font-size:.95rem;margin-bottom:5px}
+.mode-card p{color:var(--muted);font-size:.8rem;line-height:1.55}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;padding:13px 22px;border-radius:10px;font-size:.875rem;font-weight:600;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:320px;color:#fff;background:var(--navy)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:#065f46}
+.toast.err{background:#7f1d1d}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .certs-grid,.feat-grid,.testi-grid{grid-template-columns:repeat(2,1fr)}
+  .plans-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .cert-select-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:768px){
+  .topbar{padding:0 16px}
+  .topbar-links,.nav-login-btn{display:none}
+  .ham{display:block}
+  .hero{padding:60px 20px 56px}
+  .certs-section,.features-section,.testi-section,.how-section,.pricing-section,.faq-section,.cta-band{padding-left:20px;padding-right:20px}
+  .certs-grid,.feat-grid,.testi-grid,.modes-row,.dash-stats-row{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr 1fr;gap:24px}
+  .how-steps::before{display:none}
+  .hero-stats{flex-direction:column}
+  .h-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
+  .h-stat:last-child{border-bottom:none}
+  .cert-select-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr}
+  .res-stats{grid-template-columns:1fr 1fr}
+  .form-row-2,.card-3col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<nav class="topbar">
+  <div class="logo-wrap" onclick="goHome()">
+    <div class="logo-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <span class="logo-text">ITCert<span class="sp">SurePass</span></span>
+  </div>
+  <div class="topbar-links">
+    <button onclick="goHome()">Home</button>
+    <button onclick="goHome();scrollTo('#certs')">Certifications</button>
+    <button onclick="goHome();scrollTo('#features')">Features</button>
+    <button onclick="goHome();scrollTo('#pricing')">Pricing</button>
+    <button onclick="goHome();scrollTo('#faq')">FAQ</button>
+  </div>
+  <div class="topbar-right">
+    <div class="user-chip" id="userChip">
+      <div class="user-av" id="userAv">U</div>
+      <span class="user-name-lbl" id="userLabel">User</span>
+    </div>
+    <button class="nav-login-btn" id="topLoginBtn" onclick="openModal('loginModal')">Log In</button>
+    <button class="nav-cta-btn" id="topFreeBtn" onclick="doFreeSample()">Try Free Sample</button>
+    <button class="nav-cta-btn hidden" id="topDashBtn" onclick="showView('dashboard')">Dashboard</button>
+    <button class="ham" onclick="toggleMob()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <button onclick="goHome();closeMob()">Home</button>
+  <button onclick="goHome();closeMob();scrollTo('#certs')">Certifications</button>
+  <button onclick="goHome();closeMob();scrollTo('#features')">Features</button>
+  <button onclick="goHome();closeMob();scrollTo('#pricing')">Pricing</button>
+  <button onclick="openModal('loginModal');closeMob()">Log In</button>
+  <button onclick="doFreeSample();closeMob()">Try Free Sample</button>
+</div>
+
+<!-- ══════════ LANDING VIEW ══════════ -->
+<div class="view active" id="view-landing">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge"><span class="dot"></span>Pass Your IT Certification — First Try, Guaranteed</div>
+    <h1>The Smarter Way to<br/><span class="hl">Ace Any IT Cert.</span></h1>
+    <p class="hero-sub">Real exam-style questions, detailed explanations, and timed simulations for the top IT certifications. Study smarter, pass faster, and never re-sit an exam.</p>
+    <div class="hero-btns">
+      <button class="btn btn-green btn-lg" onclick="doFreeSample()">Try 25 Free Questions</button>
+      <button class="btn btn-lg" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)" onclick="openModal('registerModal')">Get Full Access — $9.99</button>
+    </div>
+    <!-- Cert pills -->
+    <div class="cert-badges">
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#DC2626"></span>PMP</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#7C3AED"></span>PMI-ACP</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#0EA5E9"></span>CCSP</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#0078D4"></span>Azure</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#F25022"></span>Microsoft</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#FF9900"></span>AWS</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#FF3621"></span>Databricks</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#29B5E8"></span>Snowflake</span>
+      <span class="cert-badge-pill"><span class="cert-dot" style="background:#1F2937"></span>CISSP</span>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><span class="n">9</span><span class="l">Certifications</span></div>
+      <div class="h-stat"><span class="n">5,000+</span><span class="l">Practice Questions</span></div>
+      <div class="h-stat"><span class="n">95%</span><span class="l">First-Pass Rate</span></div>
+      <div class="h-stat"><span class="n">$9.99</span><span class="l">Per Certification</span></div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="certs-section" id="certs">
+    <span class="section-eyebrow">Question Banks Available</span>
+    <h2 class="section-h">Choose Your <em>Certification</em></h2>
+    <p class="section-p">We cover the most in-demand IT certifications across project management, cloud, security, and data platforms. Each question bank is crafted by certified professionals.</p>
+
+    <div class="cert-vendor-tabs">
+      <button class="v-tab active" onclick="filterCerts('all',this)">All Certs</button>
+      <button class="v-tab" onclick="filterCerts('pm',this)">Project Management</button>
+      <button class="v-tab" onclick="filterCerts('cloud',this)">Cloud</button>
+      <button class="v-tab" onclick="filterCerts('security',this)">Security</button>
+      <button class="v-tab" onclick="filterCerts('data',this)">Data & AI</button>
+    </div>
+
+    <div class="certs-grid" id="certsGrid">
+
+      <!-- PMP -->
+      <div class="cert-card" data-cat="pm" onclick="handleCertClick('pmp')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#DC2626,#B91C1C)">PMI</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Project Management Professional</div>
+            <div class="cert-vendor-name">PMI — Project Management Institute</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">The world's leading project management certification. Covers predictive, agile, and hybrid approaches with real-world scenario questions aligned to the current PMP Exam Content Outline.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#fee2e2;color:#991b1b;border-color:#fca5a5">600+ Questions</span>
+            <span class="cert-chip" style="background:#dbeafe;color:#1e40af;border-color:#93c5fd">Agile & Hybrid</span>
+            <span class="cert-chip" style="background:#d1fae5;color:#065f46;border-color:#6ee7b7">Available Now</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span class="free-tag">25 Free</span></span>
+          <button class="btn btn-primary btn-sm">Start Studying</button>
+        </div>
+      </div>
+
+      <!-- PMI-ACP -->
+      <div class="cert-card" data-cat="pm" onclick="handleCertClick('pmiacp')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)">PMI</div>
+          <div class="cert-card-info">
+            <div class="cert-name">PMI Agile Certified Practitioner</div>
+            <div class="cert-vendor-name">PMI — Project Management Institute</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Demonstrates expertise in Agile principles and practices. Covers Scrum, Kanban, SAFe, Lean, XP, and other agile frameworks used in modern project environments.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">500+ Questions</span>
+            <span class="cert-chip" style="background:#dbeafe;color:#1e40af;border-color:#93c5fd">Scrum / SAFe</span>
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99</span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- CCSP -->
+      <div class="cert-card" data-cat="security cloud" onclick="handleCertClick('ccsp')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#0EA5E9,#0284C7)">(ISC)²</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Certified Cloud Security Professional</div>
+            <div class="cert-vendor-name">(ISC)² — Cloud Security Certification</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Validates deep expertise in cloud security architecture, design, operations, and service orchestration. Ideal for security professionals working in cloud environments.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#e0f2fe;color:#0369a1;border-color:#7dd3fc">500+ Questions</span>
+            <span class="cert-chip" style="background:#f0fdf4;color:#166534;border-color:#86efac">Cloud Security</span>
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99</span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Azure -->
+      <div class="cert-card" data-cat="cloud" onclick="handleCertClick('azure')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#0078D4,#005A9E)">Az</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Microsoft Azure Certifications</div>
+            <div class="cert-vendor-name">Microsoft — AZ-900 · AZ-104 · AZ-305</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Comprehensive question banks for Azure Fundamentals (AZ-900), Azure Administrator (AZ-104), and Azure Solutions Architect (AZ-305) — covering the full Azure ecosystem.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#dbeafe;color:#1e40af;border-color:#93c5fd">3 Exams</span>
+            <span class="cert-chip" style="background:#e0f2fe;color:#0369a1;border-color:#7dd3fc">IaaS / PaaS</span>
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span style="font-size:.75rem;color:var(--muted);font-weight:400">per exam</span></span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Microsoft -->
+      <div class="cert-card" data-cat="cloud" onclick="handleCertClick('microsoft')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#F25022,#7FBA00,#00A4EF,#FFB900);font-size:.7rem">MS</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Microsoft 365 & Power Platform</div>
+            <div class="cert-vendor-name">Microsoft — MS-900 · PL-900 · SC-900</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Question banks for Microsoft 365 Fundamentals, Power Platform Fundamentals, and Security Fundamentals — widely required for Microsoft ecosystem roles.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+            <span class="cert-chip" style="background:#dbeafe;color:#1e40af;border-color:#93c5fd">M365 / Power BI</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span style="font-size:.75rem;color:var(--muted);font-weight:400">per exam</span></span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- AWS -->
+      <div class="cert-card" data-cat="cloud" onclick="handleCertClick('aws')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#FF9900,#E07B00)">AWS</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Amazon Web Services Certifications</div>
+            <div class="cert-vendor-name">AWS — Cloud Practitioner · Solutions Architect · Developer</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Full question banks for AWS Certified Cloud Practitioner (CLF-C02), Solutions Architect – Associate (SAA-C03), and Developer – Associate (DVA-C02).</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+            <span class="cert-chip" style="background:#fff7ed;color:#9a3412;border-color:#fdba74">EC2 / S3 / Lambda</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span style="font-size:.75rem;color:var(--muted);font-weight:400">per exam</span></span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Databricks -->
+      <div class="cert-card" data-cat="data" onclick="handleCertClick('databricks')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#FF3621,#CC2A18)">DB</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Databricks Certifications</div>
+            <div class="cert-vendor-name">Databricks — Data Engineer · ML Associate · Gen AI</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Prepare for Databricks Certified Data Engineer Associate, Machine Learning Associate, and Generative AI Associate — covering Delta Lake, MLflow, and Unity Catalog.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+            <span class="cert-chip" style="background:#fee2e2;color:#991b1b;border-color:#fca5a5">Delta Lake / MLflow</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span style="font-size:.75rem;color:var(--muted);font-weight:400">per exam</span></span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Snowflake -->
+      <div class="cert-card" data-cat="data" onclick="handleCertClick('snowflake')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#29B5E8,#1C8BB5)">❄</div>
+          <div class="cert-card-info">
+            <div class="cert-name">Snowflake Certifications</div>
+            <div class="cert-vendor-name">Snowflake — Core · Architect · Developer</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">Question banks for SnowPro Core Certification, SnowPro Advanced: Architect, and SnowPro Advanced: Developer — covering Snowflake architecture, SQL, and data sharing.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#fef3c7;color:#92400e;border-color:#fde68a">Coming Soon</span>
+            <span class="cert-chip" style="background:#e0f2fe;color:#0369a1;border-color:#7dd3fc">Virtual Warehouse</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span style="font-size:.75rem;color:var(--muted);font-weight:400">per exam</span></span>
+          <span class="cert-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- CISSP -->
+      <div class="cert-card" data-cat="security" onclick="handleCertClick('cissp')">
+        <div class="cert-card-header">
+          <div class="cert-vendor-logo" style="background:linear-gradient(135deg,#1F2937,#374151)">(ISC)²</div>
+          <div class="cert-card-info">
+            <div class="cert-name">CISSP — Certified Information Systems Security Professional</div>
+            <div class="cert-vendor-name">(ISC)² — Information Security</div>
+          </div>
+        </div>
+        <div class="cert-card-body">
+          <p class="cert-card-desc">The gold standard in cybersecurity certification. 770 real-style questions covering all 8 CISSP domains — risk management, cryptography, access control, and more.</p>
+          <div class="cert-meta">
+            <span class="cert-chip" style="background:#f0fdf4;color:#166534;border-color:#86efac">770 Questions</span>
+            <span class="cert-chip" style="background:#1f2937;color:#f9fafb;border-color:#374151">8 Domains</span>
+            <span class="cert-chip" style="background:#d1fae5;color:#065f46;border-color:#6ee7b7">Available Now</span>
+          </div>
+        </div>
+        <div class="cert-card-footer">
+          <span class="cert-price">$9.99 <span class="free-tag">25 Free</span></span>
+          <button class="btn btn-primary btn-sm">Start Studying</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div class="how-inner">
+      <div style="text-align:center;margin-bottom:48px">
+        <span class="section-eyebrow" style="color:#38bdf8">Simple Process</span>
+        <h2 class="section-h" style="color:#fff">Pass in 4 Simple Steps</h2>
+      </div>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="step-num">1</div>
+          <h4>Choose Your Cert</h4>
+          <p>Pick your target certification from our growing library of 9+ exams across cloud, security, data, and project management.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">2</div>
+          <h4>Try 25 Free Questions</h4>
+          <p>No account required. Start immediately with 25 free sample questions and see the quality of our explanations firsthand.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">3</div>
+          <h4>Unlock Full Access</h4>
+          <p>Pay once — just $9.99 per certification. Get lifetime access to the complete question bank with detailed explanations.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">4</div>
+          <h4>Pass First Time</h4>
+          <p>Use timed exam simulations, track your weak areas, and walk into the exam confident. Most users pass on their first attempt.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features-section" id="features">
+    <span class="section-eyebrow">Platform Features</span>
+    <h2 class="section-h">Everything Built for <em>Exam Success</em></h2>
+    <p class="section-p">Every feature is designed around one goal: helping you pass your certification on the first try.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Real Exam-Style Questions</h3>
+        <p>Questions are crafted to match the format, difficulty, and cognitive level of actual certification exams — not dumbed-down textbook questions.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div>
+        <h3>Detailed Explanations for Every Answer</h3>
+        <p>Every question includes explanations for all four answer choices — not just the correct one. Understand the "why" behind every decision.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Timed Exam Simulation</h3>
+        <p>Practice under real exam conditions with timed sessions. Choose from 25-question quick practice, 50-question half-exams, or full simulations.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <h3>Performance Analytics</h3>
+        <p>Track your scores, identify weak areas, and monitor improvement over time with your personal study dashboard.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+        <h3>25 Free Questions — No Account Needed</h3>
+        <p>Try before you buy. Start a 25-question sample exam instantly — no registration, no email, no credit card required.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <h3>Mobile-Optimized Study</h3>
+        <p>Study anywhere — on the train, during lunch, or at your desk. Fully responsive and optimized for mobile, tablet, and desktop.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-section" id="pricing">
+    <div class="pricing-inner">
+      <span class="section-eyebrow" style="color:#38bdf8;display:block;margin-bottom:10px">Simple Pricing</span>
+      <h2 class="section-h">One Price. <em style="color:#38bdf8">Lifetime Access.</em></h2>
+      <p class="section-p">No subscriptions. No renewals. No hidden fees. Pay once per certification and own the full question bank forever.</p>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-eyebrow">Free</div>
+          <div class="plan-name">Sample Test</div>
+          <div class="plan-price"><sup>$</sup>0</div>
+          <div class="plan-note">No account required</div>
+          <div class="plan-feats">
+            <div class="plan-feat"><span class="ck">✓</span>25 sample questions per cert</div>
+            <div class="plan-feat"><span class="ck">✓</span>Full answer explanations</div>
+            <div class="plan-feat"><span class="ck">✓</span>Instant scoring & results</div>
+            <div class="plan-feat na"><span class="xx">✗</span>Full question bank</div>
+            <div class="plan-feat na"><span class="xx">✗</span>Performance analytics</div>
+            <div class="plan-feat na"><span class="xx">✗</span>Timed exam simulation</div>
+          </div>
+          <button class="btn btn-outline btn-full" style="border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8)" onclick="doFreeSample()">Start Free Sample</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-eyebrow">Full Access</div>
+          <div class="plan-name">Single Certification</div>
+          <div class="plan-price"><sup>$</sup>9<span class="per">.99</span></div>
+          <div class="plan-note">One-time · Lifetime access</div>
+          <div class="plan-feats">
+            <div class="plan-feat"><span class="ck">✓</span>Full question bank (500–770 questions)</div>
+            <div class="plan-feat"><span class="ck">✓</span>Explanations for every answer choice</div>
+            <div class="plan-feat"><span class="ck">✓</span>Timed exam simulation modes</div>
+            <div class="plan-feat"><span class="ck">✓</span>Performance tracking dashboard</div>
+            <div class="plan-feat"><span class="ck">✓</span>Unlimited retakes — practice as much as you want</div>
+            <div class="plan-feat"><span class="ck">✓</span>Lifetime access — never expires</div>
+          </div>
+          <button class="btn btn-primary btn-full btn-lg" onclick="openModal('registerModal')">Get Full Access — $9.99</button>
+        </div>
+        <div class="plan-card">
+          <div class="plan-eyebrow">Bundle</div>
+          <div class="plan-name">All Certifications</div>
+          <div class="plan-price"><sup>$</sup>49<span class="per">.99</span></div>
+          <div class="plan-note">One-time · All certs · Lifetime</div>
+          <div class="plan-feats">
+            <div class="plan-feat"><span class="ck">✓</span>Access to all 9 certification banks</div>
+            <div class="plan-feat"><span class="ck">✓</span>5,000+ questions total</div>
+            <div class="plan-feat"><span class="ck">✓</span>All current + future certifications</div>
+            <div class="plan-feat"><span class="ck">✓</span>Unified study dashboard</div>
+            <div class="plan-feat"><span class="ck">✓</span>Priority support</div>
+            <div class="plan-feat"><span class="ck">✓</span>Best value — save over 40%</div>
+          </div>
+          <button class="btn btn-gold btn-full" onclick="openModal('registerModal')">Get All Certs — $49.99</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="testi-section">
+    <span class="section-eyebrow">Success Stories</span>
+    <h2 class="section-h" style="margin-bottom:40px">Professionals Who <em>Passed</em></h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Passed my PMP on the first attempt after 3 weeks with ITCertSurePass. The scenario-based questions are exactly what you see in the real exam. Worth every penny."</p>
+        <div class="testi-author"><div class="t-av" style="background:linear-gradient(135deg,#DC2626,#B91C1C)">MK</div><div><div class="t-name">Michael K.</div><div class="t-role">PMP Certified · Program Manager</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Used the CISSP bank and passed with a comfortable margin. The explanations for wrong answers are what sets this apart — you actually learn the material, not just memorize."</p>
+        <div class="testi-author"><div class="t-av" style="background:linear-gradient(135deg,#1F2937,#374151)">SR</div><div><div class="t-name">Sarah R.</div><div class="t-role">CISSP Certified · Security Architect</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"$9.99 for a complete question bank is unbelievably good value. I used it for my AWS Solutions Architect. The timed simulation made test day feel easy by comparison."</p>
+        <div class="testi-author"><div class="t-av" style="background:linear-gradient(135deg,#FF9900,#E07B00)">JT</div><div><div class="t-name">James T.</div><div class="t-role">AWS SAA Certified · Cloud Architect</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section" id="faq">
+    <div class="faq-inner">
+      <div style="text-align:center;margin-bottom:40px">
+        <span class="section-eyebrow">FAQ</span>
+        <h2 class="section-h">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">How many free questions can I access without an account? <span class="arrow">▼</span></div><div class="faq-a">You can access 25 free questions per certification instantly — no account, no email, and no credit card required. The free sample gives you a genuine preview of the question quality and explanations.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">Is the $9.99 payment a one-time fee or a subscription? <span class="arrow">▼</span></div><div class="faq-a">Completely one-time. You pay $9.99 per certification and receive lifetime access — no renewals, no monthly fees, no surprises. The $49.99 bundle covers all certifications forever.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">What payment methods do you accept? <span class="arrow">▼</span></div><div class="faq-a">We accept all major credit and debit cards (Visa, Mastercard, American Express, Discover) as well as PayPal. All payments are processed securely with 256-bit SSL encryption.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">When will the other certifications (AWS, Azure, Databricks, etc.) be available? <span class="arrow">▼</span></div><div class="faq-a">We are actively developing question banks for AWS, Azure, Databricks, Snowflake, CCSP, PMI-ACP, and Microsoft certifications. Sign up for a free account to be notified the moment a new bank launches.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">Are the questions aligned to the current exam content outlines? <span class="arrow">▼</span></div><div class="faq-a">Yes. Every question bank is created and maintained by certified professionals who have recently passed the corresponding exam. We update banks whenever vendors release new exam content outlines.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">Can I access the site on my phone or tablet? <span class="arrow">▼</span></div><div class="faq-a">Absolutely. ITCertSurePass is fully responsive and works seamlessly on any device — smartphone, tablet, laptop, or desktop. Study wherever you are, whenever you want.</div></div>
+    </div>
+  </div>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <h2>Ready to Pass<br/>on Your First Try?</h2>
+    <p>Join thousands of IT professionals who used ITCertSurePass to earn their certifications. Start free — no account needed.</p>
+    <div class="btn-row">
+      <button class="btn btn-green btn-lg" onclick="doFreeSample()">Try 25 Free Questions →</button>
+      <button class="btn btn-lg" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)" onclick="openModal('registerModal')">Get Full Access — $9.99</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-wrap" style="margin-bottom:0">
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <span class="logo-text">ITCert<span class="sp">SurePass</span></span>
+        </div>
+        <p>The smarter way to pass your IT certification on the first try. Real questions, real explanations, real results.</p>
+      </div>
+      <div class="footer-col"><h4>Certifications</h4><ul>
+        <li><a href="#">PMP</a></li>
+        <li><a href="#">PMI-ACP</a></li>
+        <li><a href="#">CISSP</a></li>
+        <li><a href="#">CCSP</a></li>
+        <li><a href="#">AWS</a></li>
+        <li><a href="#">Azure</a></li>
+        <li><a href="#">Databricks</a></li>
+        <li><a href="#">Snowflake</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Platform</h4><ul>
+        <li><a href="#">How It Works</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Free Sample</a></li>
+        <li><a href="#" onclick="openModal('loginModal');return false">Log In</a></li>
+        <li><a href="#" onclick="openModal('registerModal');return false">Create Account</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Refund Policy</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 ITCertSurePass · All rights reserved · Questions for educational purposes only</p>
+      <p>PMP® and PMI-ACP® are registered marks of PMI. CISSP® and CCSP® are marks of (ISC)². AWS, Azure, Databricks, and Snowflake are marks of their respective owners.</p>
+    </div>
+  </div>
+</div><!-- /landing -->
+
+<!-- ══ EXAM VIEW ══ -->
+<div class="view" id="view-exam">
+  <div class="exam-wrap">
+    <div class="exam-topbar">
+      <div class="exam-title">
+        <h2 id="examTitle">CISSP Free Sample</h2>
+        <p id="examSub">25 sample questions · Try free</p>
+      </div>
+      <div class="exam-counters">
+        <div class="ecnt"><span class="v" id="eCur">1</span><span class="l">Question</span></div>
+        <div class="ecnt"><span class="v" id="eTotal">25</span><span class="l">Total</span></div>
+        <div class="ecnt"><span class="v" id="eScore">--</span><span class="l">Score</span></div>
+        <div class="ecnt"><span class="v" id="eTimer">--:--</span><span class="l">Time</span></div>
+        <button class="btn btn-ghost btn-sm" onclick="exitExam()">Exit</button>
+      </div>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div>
+    <div class="q-nav-dots"><div class="dots-grid" id="dotGrid"></div></div>
+    <div class="qcard" id="mainQCard">
+      <div class="qmeta">
+        <span class="q-no" id="qNo">Question 1 of 25</span>
+        <span class="q-cert-badge hidden" id="certBadge" style="background:#e0f2fe;color:#0369a1;border-color:#7dd3fc">CISSP</span>
+      </div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="opts" id="qOpts"></div>
+      <div class="expl" id="qExpl"></div>
+    </div>
+    <div class="locked-wall hidden" id="lockedWall">
+      <div class="lk-icon">🔒</div>
+      <h3>You've completed the free sample!</h3>
+      <p>Unlock all questions for this certification — detailed explanations, timed simulation, and performance tracking — for just <strong>$9.99</strong>.</p>
+      <button class="btn btn-primary btn-lg" onclick="openModal('registerModal')" style="margin-bottom:12px">Unlock Full Access — $9.99</button><br/>
+      <button class="btn btn-ghost btn-sm" onclick="showResults()">See My Results</button>
+    </div>
+    <div class="q-actions" id="qActions">
+      <button class="btn btn-ghost" id="btnPrev" onclick="prevQ()">← Prev</button>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost btn-sm" onclick="skipQ()">Skip</button>
+        <button class="btn btn-primary" id="btnNext" onclick="nextQ()">Next →</button>
+        <button class="btn btn-green hidden" id="btnFinish" onclick="showResults()">Finish & See Results</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULTS VIEW ══ -->
+<div class="view" id="view-results">
+  <div class="exam-wrap">
+    <div class="res-card">
+      <h2 style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.7rem;margin-bottom:6px">Exam Complete!</h2>
+      <p style="color:var(--muted);margin-bottom:24px" id="resSub">Here's how you performed</p>
+      <div class="score-ring" id="scoreRing">
+        <span class="sp" id="scorePct">0%</span>
+        <span class="sl">Score</span>
+      </div>
+      <div class="res-stats">
+        <div class="rs"><div class="rv" id="rCorrect">0</div><div class="rl">Correct</div></div>
+        <div class="rs"><div class="rv" id="rWrong">0</div><div class="rl">Wrong</div></div>
+        <div class="rs"><div class="rv" id="rSkipped">0</div><div class="rl">Skipped</div></div>
+      </div>
+      <div class="upsell-box" id="upsellBox" style="display:none">
+        <p style="font-weight:700;margin-bottom:6px">🎯 Ready for the full question bank?</p>
+        <p style="color:var(--muted);font-size:.875rem;margin-bottom:14px">You've seen 25 free questions. Get lifetime access to the complete bank with detailed explanations for just $9.99.</p>
+        <button class="btn btn-primary btn-full" onclick="openModal('registerModal')">Unlock Full Access — $9.99</button>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-ghost" onclick="reviewExam()">Review Answers</button>
+        <button class="btn btn-primary" id="retakeBtn" onclick="retakeExam()">Retake Exam</button>
+        <button class="btn btn-ghost" onclick="goHome()">Back to Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD VIEW ══ -->
+<div class="view" id="view-dashboard">
+  <div class="dash-wrap">
+    <div class="dash-hero-card">
+      <div><h2>Welcome back, <span id="dashGreet">Student</span>! 👋</h2><p id="dashAccess">You have full access to your purchased certifications.</p></div>
+      <button class="btn btn-green" onclick="startExamFromDash()">Start Practice Exam</button>
+    </div>
+    <div class="dash-stats-row">
+      <div class="dst"><div class="dv" id="dTotal">0</div><div class="dl">Total Questions</div></div>
+      <div class="dst"><div class="dv" id="dAttempted">0</div><div class="dl">Attempted</div></div>
+      <div class="dst"><div class="dv" id="dCorrect">0</div><div class="dl">Correct</div></div>
+      <div class="dst"><div class="dv" id="dAvg">0%</div><div class="dl">Avg. Score</div></div>
+    </div>
+    <div class="cert-select-section">
+      <h3>Select Certification to Study</h3>
+      <div class="cert-select-grid" id="dashCertGrid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+    <p class="section-eyebrow" style="margin-bottom:14px">Study Modes</p>
+    <div class="modes-row">
+      <div class="mode-card" onclick="startExamFromDash(25)">
+        <div class="mode-icon">⚡</div>
+        <h4>Quick Practice</h4>
+        <p>25 random questions · Untimed · Instant feedback</p>
+      </div>
+      <div class="mode-card" onclick="startExamFromDash(50)">
+        <div class="mode-icon">📝</div>
+        <h4>Half Exam</h4>
+        <p>50 questions · 90-minute timer</p>
+      </div>
+      <div class="mode-card" onclick="startExamFromDash(100)">
+        <div class="mode-icon">🏆</div>
+        <h4>Full Simulation</h4>
+        <p>100 questions · 3-hour timed exam</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MODALS ══════ -->
+<!-- LOGIN -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-logo"><div class="logo-icon" style="width:30px;height:30px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><span class="logo-text" style="font-size:1rem">ITCert<span class="sp">SurePass</span></span></div>
+    <h2>Sign In</h2>
+    <p class="sub">Access your question banks and study progress</p>
+    <div class="fg"><label>Email Address</label><input type="email" id="liEmail" placeholder="you@example.com"/></div>
+    <div class="fg"><label>Password</label><input type="password" id="liPass" placeholder="••••••••"/></div>
+    <div class="err-msg" id="liErr">Invalid email or password.</div>
+    <button class="btn btn-primary btn-full" style="margin-top:6px" onclick="doLogin()">Sign In</button>
+    <div style="text-align:center;margin-top:16px;font-size:.85rem;color:var(--muted)">
+      No account yet? <button class="link-btn" onclick="closeModal('loginModal');openModal('registerModal')">Create one — $9.99</button>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER + PAYMENT -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+
+    <!-- Step 1: Account -->
+    <div id="rStep1">
+      <div class="modal-logo"><div class="logo-icon" style="width:30px;height:30px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><span class="logo-text" style="font-size:1rem">ITCert<span class="sp">SurePass</span></span></div>
+      <h2>Create Your Account</h2>
+      <p class="sub">Get lifetime access to your selected certification question bank for a one-time payment of <strong style="color:var(--blue2)">$9.99</strong>.</p>
+      <div class="form-row-2">
+        <div class="fg"><label>First Name</label><input type="text" id="rFirst" placeholder="Jane"/></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="rLast" placeholder="Smith"/></div>
+      </div>
+      <div class="fg"><label>Email Address</label><input type="email" id="rEmail" placeholder="jane@example.com"/></div>
+      <div class="fg"><label>Password</label><input type="password" id="rPass" placeholder="Minimum 8 characters"/></div>
+      <div class="fg">
+        <label>Certification</label>
+        <select id="rCert">
+          <option value="cissp">CISSP — $9.99</option>
+          <option value="pmp">PMP — $9.99</option>
+          <option value="bundle">All Certifications Bundle — $49.99</option>
+        </select>
+      </div>
+      <div class="err-msg" id="rErr1">Please complete all fields.</div>
+      <button class="btn btn-primary btn-full" style="margin-top:8px" onclick="goToPayStep()">Continue to Payment →</button>
+      <div style="text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted)">
+        Already have an account? <button class="link-btn" onclick="closeModal('registerModal');openModal('loginModal')">Sign in</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Payment -->
+    <div id="rStep2" class="hidden">
+      <h2>Complete Payment</h2>
+      <p class="sub">One-time payment — lifetime access, no renewals ever.</p>
+      <div class="pay-methods">
+        <div class="pm-btn active" id="pmCC" onclick="selPay('cc')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Credit / Debit Card
+        </div>
+        <div class="pm-btn" id="pmPP" onclick="selPay('paypal')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 11l5-7h6a4 4 0 0 1 3.5 6L19 13h-5l-1 4H9l1-4H7z"/></svg>
+          PayPal
+        </div>
+      </div>
+      <div id="ccFields">
+        <div class="fg"><label>Name on Card</label><input type="text" id="cName" placeholder="Jane Smith"/></div>
+        <div class="fg">
+          <label>Card Details</label>
+          <div id="stripe-card-element" style="border:1.5px solid #e5e7eb;border-radius:9px;padding:13px 14px;background:#fff;transition:border-color .2s"></div>
+          <div id="stripe-card-errors" style="color:#dc2626;font-size:.81rem;margin-top:6px;display:none"></div>
+        </div>
+        <div class="fg"><label>Billing ZIP / Postal Code</label><input type="text" id="cZIP" placeholder="10001" maxlength="10"/></div>
+      </div>
+      <div id="ppFields" class="paypal-box hidden">
+        <p style="font-weight:700;margin-bottom:10px;font-size:.9rem">Pay securely with PayPal</p>
+        <div id="paypal-button-container"></div>
+        <p style="color:var(--muted);font-size:.76rem;margin-top:10px;text-align:center">You'll be asked to log in to PayPal or pay as a guest.</p>
+      </div>
+      <div class="total-row">
+        <span class="tl">Total (one-time)</span>
+        <span class="ta" id="payTotal">$9.99</span>
+      </div>
+      <div class="err-msg" id="rErr2">Please complete all payment fields.</div>
+      <button class="btn btn-green btn-full btn-lg" id="payBtn" onclick="doPay()" style="margin-top:8px">
+        🔒 Pay <span id="payBtnAmt">$9.99</span> — Activate Account
+      </button>
+      <div class="secure-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        256-bit SSL encryption · Powered by Stripe · Instant access
+      </div>
+      <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:7px;padding:8px 12px;font-size:.75rem;color:#92400e;margin-top:8px;display:flex;align-items:flex-start;gap:7px">
+        <span style="flex-shrink:0">🧪</span>
+        <span><strong>Test mode:</strong> Use card <code style="background:#fef3c7;padding:1px 4px;border-radius:3px">4242 4242 4242 4242</code>, any future date, any CVC, any ZIP to test payment.</span>
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <button class="link-btn" onclick="backToAcct()">← Back to account info</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="rStep3" class="hidden">
+      <div class="success-wrap">
+        <div class="success-icon">✅</div>
+        <h2 style="margin-bottom:8px">Payment Successful!</h2>
+        <p style="color:var(--muted);margin-bottom:6px">Welcome to ITCertSurePass, <strong id="sName">Jane</strong>!</p>
+        <p style="color:var(--muted);font-size:.875rem;margin-bottom:26px">Your account is active. You now have lifetime access to your question bank.</p>
+        <button class="btn btn-primary btn-full btn-lg" onclick="closeModal('registerModal');showView('dashboard')">Go to My Dashboard →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NOTIFY ME MODAL -->
+<div class="modal-overlay" id="notifyModal">
+  <div class="modal" style="max-width:420px">
+    <button class="modal-close" onclick="closeModal('notifyModal')">✕</button>
+    <div style="text-align:center;margin-bottom:20px;font-size:2rem">🔔</div>
+    <h2 style="text-align:center">Get Notified</h2>
+    <p class="sub" style="text-align:center">Be the first to know when the <strong id="notifyCertName">AWS</strong> question bank launches.</p>
+    <div class="fg"><label>Your Email</label><input type="email" id="notifyEmail" placeholder="you@example.com"/></div>
+    <button class="btn btn-primary btn-full" onclick="doNotify()">Notify Me When Available</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════ DATA + JS ══════════ -->
+<script id="freeQData" type="application/json">[{"id": 1, "q": "Physical assets defined in an organization's business impact analysis (BIA) could include which of the following?", "o": {"A": "Personal belongings of organizational staff members", "B": "Disaster recovery (DR) line-item revenues", "C": "Cloud-based applications", "D": "Supplies kept off-site a remote facility"}, "a": "D", "e": {"A": "Personal belongings of staff are not organizational physical assets \u2014 they belong to individuals and are not part of what the BIA must protect or assess for business impact.", "B": "DR line-item revenues are financial/budget data, not physical assets. They might appear in a financial impact analysis but they are not 'physical' in nature.", "C": "Cloud-based applications are intangible/logical assets (software/services) \u2014 they are not physical assets even though they may run on physical infrastructure owned by a third party.", "D": "Correct. Off-site supplies (e.g., backup tapes, spare hardware, emergency forms held at a remote facility) are tangible, organization-owned physical assets that directly support business continuity, so they must be inventoried in the BIA."}}, {"id": 2, "q": "When assessing the audit capability of an application, which of the following activities is MOST important?", "o": {"A": "Identify procedures to investigate suspicious activity.", "B": "Determine if audit records contain sufficient information.", "C": "Verify if sufficient storage is allocated for audit records.", "D": "Review security plan for actions to be taken in the event of audit failure."}, "a": "B", "e": {"A": "Investigative procedures are part of incident response, not the audit capability assessment itself. You can't investigate effectively if the records lack content, so this is downstream of (B).", "B": "Correct. The single most important question for an audit capability is whether the audit records actually contain enough information (who, what, when, where, source, outcome) to reconstruct events. Without sufficient content, no amount of storage, alerting, or process can compensate.", "C": "Storage capacity matters for retention but is secondary \u2014 plenty of storage holding useless logs provides no audit value.", "D": "Audit-failure response planning is important but is a contingency control, not the core measure of audit capability."}}, {"id": 3, "q": "An organization would like to implement an authorization mechanism that would simplify the assignment of various system access permissions for many users with similar job responsibilities. Which type of authorization mechanism would be the BEST choice for the organization to implement?", "o": {"A": "Role-based access control (RBAC)", "B": "Discretionary access control (DAC)", "C": "Content-dependent Access Control", "D": "Rule-based Access Control"}, "a": "A", "e": {"A": "Correct. Role-Based Access Control (RBAC) is purpose-built for this scenario: permissions are assigned to roles (e.g., 'Teller', 'Nurse'), and users get permissions by being placed in a role. This dramatically simplifies administration when many users share job responsibilities.", "B": "DAC lets data owners individually grant access at their discretion \u2014 it scales poorly and is administratively heavy when many users need similar access.", "C": "Content-dependent access control bases decisions on the data's content (e.g., classification of a record), which doesn't address the simplification of role-aligned permissions.", "D": "Rule-based access control evaluates conditions/rules (e.g., time-of-day, IP address) \u2014 useful for environmental restrictions but not for grouping users by job function."}}, {"id": 4, "q": "What is the PRIMARY reason for criminal law being difficult to enforce when dealing with cybercrime?", "o": {"A": "Jurisdiction is hard to define.", "B": "Law enforcement agencies are understaffed.", "C": "Extradition treaties are rarely enforced.", "D": "Numerous language barriers exist."}, "a": "A", "e": {"A": "Correct. Cybercrime crosses borders effortlessly \u2014 attacker, victim, infrastructure, and stored evidence may each sit in different countries with different laws. Establishing which court has authority (jurisdiction) is the primary obstacle to prosecution.", "B": "Staffing is a real problem but it is operational, not the fundamental legal hurdle. Even fully staffed agencies face the jurisdictional problem.", "C": "Extradition treaties exist but the inability to apply them often stems from the underlying jurisdiction question and political differences.", "D": "Language is a logistical issue solved by translators; it is not the primary structural barrier to enforcement."}}, {"id": 5, "q": "Wi-Fi Protected Access 2 (WPA2) provides users with a higher level of assurance that their data will remain protected by using which protocol?", "o": {"A": "Extensible Authentication Protocol (EAP)", "B": "Internet Protocol Security (IPsec)", "C": "Secure Sockets Layer (SSL)", "D": "Secure Shell (SSH)"}, "a": "A", "e": {"A": "Correct. WPA2 uses 802.1X / EAP for enterprise authentication, providing per-user credentials and a strong key exchange. This is what gives users a higher level of assurance over WEP/WPA-Personal.", "B": "IPsec operates at Layer 3 to protect IP traffic between hosts/networks; it is independent of WPA2 and not part of the wireless protocol.", "C": "SSL/TLS protects application sessions (e.g., HTTPS), not Layer-2 wireless authentication.", "D": "SSH secures remote shell sessions; it has no role in wireless link-layer security."}}, {"id": 6, "q": "Which part of an operating system (OS) is responsible for providing security interfaces among the hardware, OS, and other parts of the computing system?", "o": {"A": "Reference monitor", "B": "Trusted Computing Base (TCB)", "C": "Time separation", "D": "Security kernel"}, "a": "D", "e": {"A": "The reference monitor is the abstract concept that mediates all access requests; it is implemented by the security kernel but is not itself the interface layer.", "B": "The TCB is the entire set of hardware, firmware, and software that enforces security policy \u2014 it is broader than the specific component providing security interfaces.", "C": "Time separation is a process-isolation technique (running tasks at different times), not the OS component that bridges hardware and software.", "D": "Correct. The security kernel is the implementation that sits between hardware, the OS, and other software \u2014 it enforces the reference monitor concept and provides the security interfaces among these layers."}}, {"id": 7, "q": "What process facilitates the balance of operational and economic costs of protective measures with gains in mission capability?", "o": {"A": "Performance testing", "B": "Risk assessment", "C": "Security audit", "D": "Risk management"}, "a": "D", "e": {"A": "Performance testing measures throughput/responsiveness \u2014 it doesn't weigh costs of controls against mission gains.", "B": "Risk assessment identifies and analyzes risk but does not by itself balance cost vs. mission benefit; that balancing is a management activity within the broader process.", "C": "A security audit verifies whether controls operate as intended; it is a check, not a cost/benefit balancing process.", "D": "Correct. Risk management is the overarching process that weighs the costs of controls against mission/operational gains and selects the appropriate response (mitigate, transfer, accept, avoid)."}}, {"id": 8, "q": "Clothing retailer employees are provisioned with user accounts that provide access to resources at partner businesses. All partner businesses use common identity and access management (IAM) protocols and differing technologies. Under the Extended Identity principle, what is the process flow between partner businesses to allow this IAM action?", "o": {"A": "Clothing retailer acts as User Self Service, confirms identity of user using industry standards, then sends credentials to partner businesses that act as a Service Provider and allows access to services.", "B": "Clothing retailer acts as identity provider (IdP), confirms identity of user using industry standards, then sends credentials to partner businesses that act as a Service Provider and allows access to services.", "C": "Clothing retailer acts as Service Provider, confirms identity of user using industry standards, then sends credentials to partner businesses that act as an identity provider (IdP) and allows access to resources.", "D": "Clothing retailer acts as Access Control Provider, confirms access of user using industry standards, then sends credentials to partner businesses that act as a Service Provider and allows access to resources."}, "a": "B", "e": {"A": "'User Self Service' is a self-registration capability for end users \u2014 it is not the federation role that asserts identity to other organizations.", "B": "Correct. Under federated/Extended Identity, the home organization (clothing retailer) acts as the Identity Provider (IdP), authenticating the user and issuing assertions; the partner businesses act as Service Providers (SPs) that consume those assertions to grant access.", "C": "This reverses the roles: the organization that owns/authenticates the user is the IdP, not the SP.", "D": "There is no standardized federation role called 'Access Control Provider'; this option mixes terminology and is incorrect."}}, {"id": 9, "q": "Which of the following statements BEST describes least privilege principle in a cloud environment?", "o": {"A": "A single cloud administrator is configured to access core functions.", "B": "Internet traffic is inspected for all incoming and outgoing packets.", "C": "Routing configurations are regularly updated with the latest routes.", "D": "Network segments remain private if unneeded to access the internet."}, "a": "A", "e": {"A": "Correct. Least privilege means giving each subject only the access necessary to perform their function. Restricting cloud administrative access to a minimal, controlled account configured for core functions is a textbook application of the principle.", "B": "Inspecting traffic is a network security control (DPI/IDS) \u2014 it relates to monitoring, not to the privilege a subject holds.", "C": "Routing updates are network configuration management \u2014 unrelated to privilege boundaries.", "D": "Network segmentation is a defense-in-depth control limiting reachability, not the privilege granted to a user/role."}}, {"id": 10, "q": "An organization has been collecting a large amount of redundant and unusable data and filling up the storage area network (SAN). Management has requested the identification of a solution that will address ongoing storage problems. Which is the BEST technical solution?", "o": {"A": "Compression", "B": "Caching", "C": "Replication", "D": "Deduplication"}, "a": "D", "e": {"A": "Compression reduces file size but does not eliminate redundant copies \u2014 duplicates would still consume space (in compressed form).", "B": "Caching speeds repeated reads; it does not reduce stored data volume.", "C": "Replication makes additional copies \u2014 the opposite of what's needed.", "D": "Correct. Deduplication identifies and stores only one copy of identical blocks/files, eliminating the redundant data that is consuming the SAN."}}, {"id": 11, "q": "In the Open System Interconnection (OSI) model, which layer is responsible for the transmission of binary data over a communications network?", "o": {"A": "Physical Layer", "B": "Application Layer", "C": "Data-Link Layer", "D": "Network Layer"}, "a": "A", "e": {"A": "Correct. Layer 1 (Physical) is responsible for the actual transmission of bits as electrical, optical, or radio signals across the medium.", "B": "Layer 7 (Application) provides services to user-facing applications (e.g., HTTP) \u2014 far above raw bit transmission.", "C": "Layer 2 (Data Link) frames bits and provides MAC addressing/error detection \u2014 it relies on Layer 1 to actually move the bits.", "D": "Layer 3 (Network) routes packets between networks using logical addressing (IP); it doesn't transmit the raw bits."}}, {"id": 12, "q": "What is the term commonly used to refer to a technique of authentication one machine to another by forging packets from a trusted source?", "o": {"A": "Smurfing", "B": "Man-in-the-Middle (MITM) attack", "C": "Session redirect", "D": "Spoofing"}, "a": "D", "e": {"A": "Smurfing is a specific DDoS attack using ICMP echo requests to broadcast addresses \u2014 it amplifies traffic, it doesn't authenticate one machine to another.", "B": "MITM intercepts and possibly modifies traffic between two parties \u2014 distinct from forging packets to impersonate a trusted source.", "C": "Session redirect (e.g., session hijacking variants) takes over an existing session \u2014 it is not the act of forging packets to impersonate identity.", "D": "Correct. Spoofing is the technique of forging packet source information (e.g., IP address) to impersonate a trusted machine and bypass authentication that relies on source identity."}}, {"id": 13, "q": "Which of the following is included in change management?", "o": {"A": "Technical review by business owner", "B": "User Acceptance Testing (UAT) before implementation", "C": "Cost-benefit analysis (CBA) after implementation", "D": "Business continuity testing"}, "a": "A", "e": {"A": "Correct. Change management requires technical/business owner review (impact, risk, approval) before changes proceed. This formal review is a defining element of change control.", "B": "UAT is part of software development/release management, not strictly the change management process itself (though changes may include test results).", "C": "Cost-benefit analysis is part of project planning; doing CBA after implementation is not a change management activity.", "D": "Business continuity testing is part of BCM, not change management."}}, {"id": 14, "q": "Which of the following mandates the amount and complexity of security controls applied to a security risk?", "o": {"A": "Security vulnerabilities", "B": "Risk tolerance", "C": "Risk mitigation", "D": "Security staff"}, "a": "B", "e": {"A": "Vulnerabilities indicate where weaknesses exist; they don't mandate the level of control investment.", "B": "Correct. Risk tolerance (risk appetite) defines how much risk the organization is willing to accept and therefore drives how much and how strong the controls applied to a given risk must be.", "C": "Risk mitigation is the act of reducing risk \u2014 it is the response, not the determinant of how much/what controls.", "D": "Security staff implement controls; they do not dictate the required strength of those controls."}}, {"id": 15, "q": "When reviewing vendor certifications for handling and processing of company data, which of the following is the BEST Service Organization Controls (SOC) certification for the vendor to possess?", "o": {"A": "SOC 1 Type 1", "B": "SOC 2 Type 1", "C": "SOC 2 Type 2", "D": "SOC 3"}, "a": "C", "e": {"A": "SOC 1 covers controls over financial reporting (ICFR), not security/availability of customer data.", "B": "SOC 2 Type 1 reports on the design of security/availability controls at a point in time \u2014 it does not test operating effectiveness.", "C": "Correct. SOC 2 Type 2 covers the Trust Services Criteria (security, availability, confidentiality, processing integrity, privacy) and tests the operating effectiveness of those controls over a period (typically 6\u201312 months) \u2014 exactly what you want when entrusting a vendor with company data.", "D": "SOC 3 is a public, summary version of SOC 2 without detailed test results \u2014 useful for marketing but less rigorous as evidence than SOC 2 Type 2."}}, {"id": 16, "q": "Which application type is considered high risk and provides a common way for malware and viruses to enter a network?", "o": {"A": "Instant messaging or chat applications", "B": "Peer-to-Peer (P2P) file sharing applications", "C": "E-mail applications", "D": "End-to-end applications"}, "a": "B", "e": {"A": "IM/chat can carry threats but is not generally classed as the highest-risk file-distribution vector.", "B": "Correct. P2P file sharing is widely recognized as a high-risk channel because it bypasses many corporate controls, downloads files from untrusted peers, and is a frequent vehicle for malware distribution.", "C": "Email is a major threat vector (phishing/attachments) but the question singles out applications considered 'high risk' in the CISSP CBK; P2P is the canonical answer for that wording.", "D": "'End-to-end applications' is not a standard high-risk category for malware entry."}}, {"id": 17, "q": "Preservation of confidentiality within information systems requires that the information is not disclosed to:", "o": {"A": "Authorized persons", "B": "Unauthorized persons or processes.", "C": "Unauthorized persons.", "D": "Authorized persons and processes"}, "a": "B", "e": {"A": "Authorized persons SHOULD be able to access information \u2014 confidentiality does not bar them.", "B": "Correct. Confidentiality requires that information is not disclosed to unauthorized persons OR processes (machines, services, applications can also be unauthorized recipients). The (ISC)\u00b2 wording explicitly includes processes.", "C": "Limiting only to 'persons' omits unauthorized processes/automated agents, which is incomplete.", "D": "Authorized persons and processes are exactly who SHOULD have access, so this is the opposite of confidentiality's intent."}}, {"id": 18, "q": "Which of the following would MINIMIZE the ability of an attacker to exploit a buffer overflow?", "o": {"A": "Memory review", "B": "Code review", "C": "Message division", "D": "Buffer division"}, "a": "B", "e": {"A": "Reviewing memory at runtime doesn't prevent the underlying coding flaw that allows the overflow.", "B": "Correct. Buffer overflows are coding defects (missing bounds checks, unsafe functions). Source-code review (along with using safe functions and compiler protections) addresses the root cause.", "C": "'Message division' is not a recognized defense against buffer overflow.", "D": "'Buffer division' is not a meaningful technique; the issue is bounds checking, not splitting buffers."}}, {"id": 19, "q": "Which of the following mechanisms will BEST prevent a Cross-Site Request Forgery (CSRF) attack?", "o": {"A": "parameterized database queries", "B": "whitelist input values", "C": "synchronized session tokens", "D": "use strong ciphers"}, "a": "C", "e": {"A": "Parameterized queries prevent SQL injection, not CSRF.", "B": "Whitelisting input prevents injection/XSS-class problems but does not stop a malicious site from inducing the user's browser to submit a forged authenticated request.", "C": "Correct. Synchronizer (anti-CSRF) tokens \u2014 unique unpredictable values bound to the user session and verified on state-changing requests \u2014 are the defining defense against CSRF because the attacker's site cannot read or forge the token.", "D": "Strong ciphers protect data in transit but do nothing about the legitimacy of an authenticated request."}}, {"id": 20, "q": "What is the PRIMARY purpose for an organization to conduct a security audit?", "o": {"A": "To ensure the organization is adhering to a well-defined standard", "B": "To ensure the organization is applying security controls to mitigate identified risks", "C": "To ensure the organization is configuring information systems efficiently", "D": "To ensure the organization is documenting findings"}, "a": "B", "e": {"A": "Standards conformance is one possible audit objective but is narrower than the primary purpose stated in (B).", "B": "Correct. The primary purpose of a security audit is to verify that the controls in place actually mitigate the identified risks \u2014 i.e., that controls are designed and operating effectively.", "C": "Configuration efficiency relates to operational tuning, not the security-control assurance an audit provides.", "D": "Documenting findings is an output of the audit, not its purpose."}}, {"id": 21, "q": "In the \"Do\" phase of the Plan-Do-Check-Act model, which of the following is performed?", "o": {"A": "Maintain and improve the Business Continuity Management (BCM) system by taking corrective action, based on the results of management review.", "B": "Monitor and review performance against business continuity policy and objectives, report the results to management for review, and determine and authorize actions for remediation and improvement.", "C": "Ensure the business continuity policy, controls, processes, and procedures have been implemented.", "D": "Ensure that business continuity policy, objectives, targets, controls, processes and procedures relevant to improving business continuity have been established."}, "a": "C", "e": {"A": "Maintaining/improving via corrective action is the 'Act' phase.", "B": "Monitoring/reviewing performance and reporting to management is the 'Check' phase.", "C": "Correct. The 'Do' phase implements the policies, controls, processes, and procedures defined during 'Plan' \u2014 i.e., putting the BCM into operation.", "D": "Establishing the policy, objectives, controls, processes, and procedures is the 'Plan' phase."}}, {"id": 22, "q": "What industry-recognized document could be used as a baseline reference that is related to data security and business operations or conducting a security assessment?", "o": {"A": "Service Organization Control (SOC) 1 Type 2", "B": "Service Organization Control (SOC) 1 Type 1", "C": "Service Organization Control (SOC) 2 Type 2", "D": "Service Organization Control (SOC) 2 Type 1"}, "a": "C", "e": {"A": "SOC 1 (any type) covers controls relevant to financial reporting, not data security/operations broadly.", "B": "Same \u2014 SOC 1 is ICFR-focused.", "C": "Correct. SOC 2 Type 2 reports on the Trust Services Criteria (security, availability, processing integrity, confidentiality, privacy) and evaluates operating effectiveness over a period \u2014 the most useful baseline for a security assessment of a service organization.", "D": "SOC 2 Type 1 reports only on the design of controls at a point in time, providing weaker assurance than Type 2."}}, {"id": 23, "q": "A criminal organization is planning an attack on a government network. Which of the following scenarios presents the HIGHEST risk to the organization?", "o": {"A": "Organization loses control of their network devices.", "B": "Network is flooded with communication traffic by the attacker.", "C": "Network management communications is disrupted.", "D": "Attacker accesses sensitive information regarding the network topology."}, "a": "D", "e": {"A": "Losing control of network devices is severe, but for a criminal organization PLANNING an attack on a government, knowledge of network topology gives them the targeting intelligence to make every later attack far more dangerous \u2014 exposure of topology is the highest-risk pre-attack disclosure.", "B": "Traffic flooding is a noisy availability attack; impactful but easily detected and not the most strategically dangerous outcome.", "C": "Disruption of management communications is impactful but is again an availability-class issue, not the long-term strategic risk.", "D": "Correct. If the attacker obtains detailed network topology, they can precisely plan lateral movement, identify high-value targets, and bypass controls \u2014 the highest strategic risk to the targeted organization."}}, {"id": 24, "q": "Which reporting type requires a service organization to describe its system and define its control objectives and controls that are relevant to users' internal control over financial reporting?", "o": {"A": "Statement on Auditing Standards (SAS) 70", "B": "Service Organization Control 1 (SOC1)", "C": "Service Organization Control 2 (SOC2)", "D": "Service Organization Control 3 (SOC3)"}, "a": "B", "e": {"A": "SAS 70 was the predecessor to SOC reports and was retired in 2011 \u2014 it is no longer the current standard.", "B": "Correct. SOC 1 specifically addresses controls at a service organization that are relevant to user entities' internal control over financial reporting (ICFR). The service organization describes its system and defines control objectives.", "C": "SOC 2 reports on the Trust Services Criteria (security, availability, etc.), not on financial reporting controls.", "D": "SOC 3 is a public, summary version of SOC 2 \u2014 it has no role in financial-reporting control reporting."}}, {"id": 25, "q": "Which of the following is the BEST method to validate secure coding techniques against injection and overflow attacks?", "o": {"A": "Scheduled team review of coding style and techniques for vulnerability patterns", "B": "The regular use of production code routines from similar applications already in use", "C": "Using automated programs to test for the latest known vulnerability patterns", "D": "Ensure code editing tools are updated against known vulnerability patterns"}, "a": "C", "e": {"A": "Manual style review is useful but slow, inconsistent, and unlikely to reliably catch every injection/overflow pattern.", "B": "Reusing routines from other applications doesn't validate that the new code is free of injection/overflow flaws \u2014 it can even propagate the same defects.", "C": "Correct. Automated security testing tools (SAST/DAST) systematically scan code for known injection and overflow vulnerability patterns and are the BEST method for validation at scale.", "D": "Updating editors with vulnerability patterns provides only weak, inline hints; it is not a validation control comparable to dedicated automated scanning."}}]</script>
+
+<script>
+// ═══════════════════ DATA ═══════════════════
+var CERTS = {
+  cissp: { name:'CISSP', vendor:'(ISC)²', color:'#1F2937', available:true, qcount:770, price:9.99 },
+  pmp:   { name:'PMP',   vendor:'PMI',    color:'#DC2626', available:true, qcount:600, price:9.99 },
+  pmiacp:{ name:'PMI-ACP',vendor:'PMI',   color:'#7C3AED', available:false,qcount:500, price:9.99 },
+  ccsp:  { name:'CCSP',  vendor:'(ISC)²', color:'#0EA5E9', available:false,qcount:500, price:9.99 },
+  azure: { name:'Azure', vendor:'Microsoft',color:'#0078D4',available:false,qcount:400,price:9.99 },
+  aws:   { name:'AWS',   vendor:'Amazon', color:'#FF9900', available:false,qcount:400, price:9.99 },
+  databricks:{ name:'Databricks',vendor:'Databricks',color:'#FF3621',available:false,qcount:300,price:9.99 },
+  snowflake: { name:'Snowflake',vendor:'Snowflake',color:'#29B5E8',available:false,qcount:300,price:9.99 },
+  microsoft: { name:'Microsoft',vendor:'Microsoft',color:'#F25022',available:false,qcount:400,price:9.99 },
+};
+
+var FREE_Q = JSON.parse(document.getElementById('freeQData').textContent);
+
+// ═══════════════════ APP STATE ═══════════════════
+var APP = { user: null, history: [], activeCert: 'cissp' };
+var EXAM = { qs:[], cur:0, ans:{}, rev:{}, isFree:true, timer:null, elapsed:0, timeLimit:0 };
+
+// ═══════════════════ VIEWS ═══════════════════
+function showView(v) {
+  document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
+  var el = document.getElementById('view-' + v);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (v === 'dashboard') buildDashboard();
+}
+
+function goHome() { showView('landing'); }
+
+function scrollTo(sel) {
+  setTimeout(function(){
+    var el = document.querySelector(sel);
+    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 80);
+}
+
+// ═══════════════════ MOBILE MENU ═══════════════════
+function toggleMob() { document.getElementById('mobMenu').classList.toggle('open'); }
+function closeMob()  { document.getElementById('mobMenu').classList.remove('open'); }
+
+// ═══════════════════ CERT FILTER ═══════════════════
+function filterCerts(cat, btn) {
+  document.querySelectorAll('.v-tab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.cert-card').forEach(function(c) {
+    var cardCat = c.getAttribute('data-cat') || '';
+    c.style.display = (cat === 'all' || cardCat.includes(cat)) ? '' : 'none';
+  });
+}
+
+// ═══════════════════ CERT CARD CLICK ═══════════════════
+function handleCertClick(certId) {
+  var cert = CERTS[certId];
+  if (!cert) return;
+  APP.activeCert = certId;
+  if (!cert.available) {
+    document.getElementById('notifyCertName').textContent = cert.name;
+    openModal('notifyModal');
+    return;
+  }
+  doFreeSample();
+}
+
+// ═══════════════════ EXAM ═══════════════════
+function doFreeSample() {
+  EXAM.qs = FREE_Q.slice();
+  EXAM.cur = 0; EXAM.ans = {}; EXAM.rev = {};
+  EXAM.isFree = true; EXAM.elapsed = 0; EXAM.timeLimit = 0;
+  var cert = CERTS[APP.activeCert] || CERTS.cissp;
+  document.getElementById('examTitle').textContent = cert.name + ' — Free Sample';
+  document.getElementById('examSub').textContent   = '25 free questions · Unlock all ' + cert.qcount + ' for $9.99';
+  document.getElementById('eTotal').textContent    = EXAM.qs.length;
+  document.getElementById('lockedWall').classList.add('hidden');
+  startTimer();
+  buildDots();
+  renderQ();
+  showView('exam');
+}
+
+function startFullExam(count) {
+  var pool = (window.ALL_QUESTIONS || FREE_Q).slice();
+  shuffle(pool);
+  EXAM.qs = pool.slice(0, Math.min(count, pool.length));
+  EXAM.cur = 0; EXAM.ans = {}; EXAM.rev = {};
+  EXAM.isFree = false; EXAM.elapsed = 0;
+  EXAM.timeLimit = count <= 25 ? 0 : count * 108;
+  var cert = CERTS[APP.activeCert] || CERTS.cissp;
+  document.getElementById('examTitle').textContent = cert.name + ' — ' + count + ' Questions';
+  document.getElementById('examSub').textContent   = count <= 25 ? 'Quick practice session' : count === 50 ? '90-minute simulation' : '3-hour exam simulation';
+  document.getElementById('eTotal').textContent    = EXAM.qs.length;
+  document.getElementById('lockedWall').classList.add('hidden');
+  startTimer();
+  buildDots();
+  renderQ();
+  showView('exam');
+}
+
+function shuffle(arr) {
+  for (var i = arr.length-1; i > 0; i--) {
+    var j = Math.floor(Math.random()*(i+1));
+    var t = arr[i]; arr[i]=arr[j]; arr[j]=t;
+  }
+}
+
+function buildDots() {
+  var g = document.getElementById('dotGrid');
+  g.innerHTML = '';
+  EXAM.qs.forEach(function(q,i){
+    var d = document.createElement('div');
+    d.className='qdot'; d.id='dot'+i; d.textContent=i+1;
+    d.onclick=(function(idx){return function(){jumpQ(idx);};})(i);
+    g.appendChild(d);
+  });
+}
+
+function updateDots() {
+  EXAM.qs.forEach(function(q,i){
+    var d = document.getElementById('dot'+i);
+    if (!d) return;
+    d.className = 'qdot';
+    if (i === EXAM.cur) d.classList.add('cur');
+    if (EXAM.rev[i]) {
+      d.classList.add(EXAM.ans[i] === q.a ? 'kor' : 'err');
+    } else if (EXAM.ans[i]) {
+      d.classList.add('ans');
+    }
+  });
+}
+
+function renderQ() {
+  var idx = EXAM.cur, q = EXAM.qs[idx], total = EXAM.qs.length;
+  document.getElementById('qNo').textContent = 'Question '+(idx+1)+' of '+total;
+  document.getElementById('eCur').textContent = idx+1;
+  document.getElementById('progFill').style.width = ((idx+1)/total*100)+'%';
+  document.getElementById('qText').textContent = q.q;
+
+  // Score display
+  var revKeys = Object.keys(EXAM.rev);
+  if (revKeys.length > 0) {
+    var cor = revKeys.filter(function(k){ return EXAM.ans[k] === EXAM.qs[parseInt(k)].a; }).length;
+    document.getElementById('eScore').textContent = Math.round(cor/revKeys.length*100)+'%';
+  } else {
+    document.getElementById('eScore').textContent = '--';
+  }
+
+  // Render options
+  var optsEl = document.getElementById('qOpts');
+  optsEl.innerHTML = '';
+  var selA = EXAM.ans[idx], isRev = EXAM.rev[idx];
+  ['A','B','C','D'].forEach(function(key){
+    var div = document.createElement('div');
+    div.className = 'opt' + (selA===key?' sel':'') + (isRev&&key===q.a?' kor':'') + (isRev&&selA===key&&key!==q.a?' err':'') + (isRev?' disabled':'');
+    var kspan = document.createElement('span'); kspan.className='opt-key'; kspan.textContent=key;
+    var tspan = document.createElement('span'); tspan.textContent=q.o[key];
+    div.appendChild(kspan); div.appendChild(tspan);
+    if (!isRev) div.onclick=(function(k){return function(){selAnswer(k);};})(key);
+    optsEl.appendChild(div);
+  });
+
+  // Explanation
+  var expl = document.getElementById('qExpl');
+  if (isRev && EXAM.ans[idx]) {
+    expl.className = 'expl show';
+    expl.innerHTML = '<strong>Correct Answer: ' + q.a + '</strong> — ' + (q.e[q.a]||'');
+  } else { expl.className='expl'; }
+
+  // Nav buttons
+  document.getElementById('btnPrev').disabled = (idx===0);
+  var isLast = (idx===total-1);
+  var allAns = Object.keys(EXAM.ans).length === total;
+  document.getElementById('btnNext').classList.toggle('hidden', isLast);
+  document.getElementById('btnFinish').classList.toggle('hidden', !isLast && !allAns);
+  if (isLast || allAns) document.getElementById('btnFinish').classList.remove('hidden');
+
+  // Locked wall for free users
+  if (EXAM.isFree && idx >= FREE_Q.length) {
+    document.getElementById('lockedWall').classList.remove('hidden');
+    document.getElementById('qActions').classList.add('hidden');
+  } else {
+    document.getElementById('lockedWall').classList.add('hidden');
+    document.getElementById('qActions').classList.remove('hidden');
+  }
+
+  updateDots();
+}
+
+function selAnswer(key) {
+  var idx = EXAM.cur;
+  if (EXAM.rev[idx]) return;
+  EXAM.ans[idx] = key; EXAM.rev[idx] = true;
+  renderQ();
+}
+
+function nextQ() { if (EXAM.cur < EXAM.qs.length-1) { EXAM.cur++; renderQ(); } }
+function prevQ() { if (EXAM.cur > 0) { EXAM.cur--; renderQ(); } }
+function skipQ() { nextQ(); }
+function jumpQ(i) { EXAM.cur=i; renderQ(); }
+
+function exitExam() {
+  if (confirm('Exit exam? Your progress will be lost.')) { stopTimer(); goHome(); }
+}
+
+// ═══════════════════ RESULTS ═══════════════════
+function showResults() {
+  stopTimer();
+  var total = EXAM.qs.length;
+  var answered = Object.keys(EXAM.ans).length;
+  var correct  = Object.keys(EXAM.ans).filter(function(k){ return EXAM.ans[k]===EXAM.qs[parseInt(k)].a; }).length;
+  var wrong    = answered - correct;
+  var skipped  = total - answered;
+  var pct      = answered>0 ? Math.round(correct/answered*100) : 0;
+  var pass     = pct >= 70;
+
+  document.getElementById('scorePct').textContent = pct+'%';
+  document.getElementById('rCorrect').textContent  = correct;
+  document.getElementById('rWrong').textContent    = wrong;
+  document.getElementById('rSkipped').textContent  = skipped;
+  document.getElementById('resSub').textContent    = pass ? '🎉 Great work! You passed the practice test.' : '📚 Keep practicing — aim for 70% or above.';
+  var ring = document.getElementById('scoreRing');
+  ring.className = 'score-ring ' + (pass ? 'pass' : 'fail');
+
+  document.getElementById('upsellBox').style.display = EXAM.isFree ? 'block' : 'none';
+  document.getElementById('retakeBtn').textContent = EXAM.isFree ? 'Retake Free Sample' : 'Retake Exam';
+
+  if (APP.user) {
+    APP.history.push({pct, correct, wrong, skipped, total, date: new Date().toISOString()});
+    saveUser();
+    updateDashStats();
+  }
+  showView('results');
+}
+
+function reviewExam() {
+  EXAM.qs.forEach(function(q,i){ if (EXAM.ans[i]) EXAM.rev[i]=true; });
+  EXAM.cur=0; renderQ(); showView('exam');
+}
+
+function retakeExam() {
+  if (EXAM.isFree) doFreeSample();
+  else startExamFromDash(EXAM.qs.length);
+}
+
+// ═══════════════════ TIMER ═══════════════════
+function startTimer() {
+  stopTimer();
+  EXAM.elapsed = 0;
+  EXAM.timer = setInterval(function(){
+    EXAM.elapsed++;
+    if (EXAM.timeLimit > 0 && EXAM.elapsed >= EXAM.timeLimit) { stopTimer(); showResults(); return; }
+    var rem = EXAM.timeLimit > 0 ? EXAM.timeLimit - EXAM.elapsed : EXAM.elapsed;
+    var m=Math.floor(rem/60), s=rem%60;
+    document.getElementById('eTimer').textContent = (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  }, 1000);
+}
+function stopTimer() { if (EXAM.timer) { clearInterval(EXAM.timer); EXAM.timer=null; } }
+
+// ═══════════════════ AUTH ═══════════════════
+function loadUser() {
+  try {
+    var u = localStorage.getItem('itcsp_user');
+    if (u) { APP.user = JSON.parse(u); refreshNavUser(); }
+  } catch(e){}
+}
+
+function saveUser() {
+  if (APP.user) localStorage.setItem('itcsp_user', JSON.stringify(APP.user));
+}
+
+function setUser(u) {
+  APP.user = u;
+  saveUser();
+  refreshNavUser();
+}
+
+function refreshNavUser() {
+  var u = APP.user;
+  var chip   = document.getElementById('userChip');
+  var liBtn  = document.getElementById('topLoginBtn');
+  var freeBtn= document.getElementById('topFreeBtn');
+  var dashBtn= document.getElementById('topDashBtn');
+  if (u) {
+    chip.style.display='flex';
+    document.getElementById('userAv').textContent = u.name.charAt(0).toUpperCase();
+    document.getElementById('userLabel').textContent = u.name.split(' ')[0];
+    liBtn && (liBtn.style.display='none');
+    freeBtn && freeBtn.classList.add('hidden');
+    dashBtn && dashBtn.classList.remove('hidden');
+  } else {
+    chip.style.display='none';
+    liBtn && (liBtn.style.display='');
+    freeBtn && freeBtn.classList.remove('hidden');
+    dashBtn && dashBtn.classList.add('hidden');
+  }
+}
+
+function doLogin() {
+  var email = document.getElementById('liEmail').value.trim();
+  var pass  = document.getElementById('liPass').value;
+  var err   = document.getElementById('liErr');
+  err.style.display='none';
+  if (!email || !pass) { err.style.display='block'; err.textContent='Please enter email and password.'; return; }
+  try {
+    var stored = JSON.parse(localStorage.getItem('itcsp_user'));
+    if (stored && stored.email === email) {
+      setUser(stored); closeModal('loginModal');
+      showToast('Welcome back, '+stored.name.split(' ')[0]+'!','success');
+      if (stored.paid) showView('dashboard');
+      return;
+    }
+  } catch(e){}
+  err.style.display='block'; err.textContent='Account not found. Please check your credentials.';
+}
+
+// ═══════════════════ REGISTER / PAYMENT ═══════════════════
+function openRegister() { showRegStep(1); openModal('registerModal'); }
+function backToAcct()   { showRegStep(1); }
+function showRegStep(n) {
+  [1,2,3].forEach(function(i){ document.getElementById('rStep'+i).classList.toggle('hidden',i!==n); });
+}
+
+function goToPayStep() {
+  var first=document.getElementById('rFirst').value.trim();
+  var last =document.getElementById('rLast').value.trim();
+  var email=document.getElementById('rEmail').value.trim();
+  var pass =document.getElementById('rPass').value;
+  var err  =document.getElementById('rErr1');
+  err.style.display='none';
+  if (!first||!last||!email||!pass) { err.style.display='block'; err.textContent='Please complete all fields.'; return; }
+  if (!email.includes('@')) { err.style.display='block'; err.textContent='Please enter a valid email.'; return; }
+  if (pass.length<8) { err.style.display='block'; err.textContent='Password must be at least 8 characters.'; return; }
+  document.getElementById('cName').value = first+' '+last;
+  var certSel = document.getElementById('rCert').value;
+  var amt = certSel==='bundle' ? '$49.99' : '$9.99';
+  document.getElementById('payTotal').textContent = amt;
+  document.getElementById('payBtnAmt').textContent = amt;
+  showRegStep(2);
+  // Initialize Stripe card element now that the container is visible
+  setTimeout(initStripe, 80);
+}
+
+// ═══════════════════ STRIPE SETUP ═══════════════════
+var STRIPE_PK = 'pk_test_51TcrCYJK0MCeY0USQQH2uztf8Awt58CyPbZQxfZYP8X4eXcQRG1HicOZdW4UMmd4KFMdpsF7HFqBrAfxhI5T0zcw00sKLvoiyh';
+var stripeInstance = null;
+var stripeCard = null;
+var stripeElements = null;
+
+function initStripe() {
+  if (stripeInstance) return; // already initialized
+  stripeInstance = Stripe(STRIPE_PK);
+  stripeElements = stripeInstance.elements({
+    fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap' }]
+  });
+  stripeCard = stripeElements.create('card', {
+    hidePostalCode: true,
+    style: {
+      base: {
+        fontFamily: '"Inter", sans-serif',
+        fontSize: '15px',
+        fontWeight: '400',
+        color: '#111827',
+        '::placeholder': { color: '#9ca3af' },
+        iconColor: '#6b7280'
+      },
+      invalid: { color: '#dc2626', iconColor: '#dc2626' }
+    }
+  });
+  stripeCard.mount('#stripe-card-element');
+  stripeCard.on('change', function(event) {
+    var errEl = document.getElementById('stripe-card-errors');
+    if (event.error) {
+      errEl.textContent = event.error.message;
+      errEl.style.display = 'block';
+    } else {
+      errEl.style.display = 'none';
+    }
+  });
+}
+
+// ═══════════════════ PAYPAL SETUP ═══════════════════
+var paypalLoaded = false;
+var paypalRendered = false;
+
+function loadPayPalSDK(amount, onSuccess) {
+  if (paypalLoaded) {
+    renderPayPalButtons(amount, onSuccess);
+    return;
+  }
+  var script = document.createElement('script');
+  script.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=USD';
+  // NOTE: Replace client-id=sb with your real PayPal client ID from developer.paypal.com
+  // client-id=sb is the PayPal sandbox mode for testing
+  script.onload = function() {
+    paypalLoaded = true;
+    renderPayPalButtons(amount, onSuccess);
+  };
+  script.onerror = function() {
+    showToast('PayPal failed to load. Please use card payment.', 'err');
+  };
+  document.head.appendChild(script);
+}
+
+function renderPayPalButtons(amount, onSuccess) {
+  if (paypalRendered) {
+    document.getElementById('paypal-button-container').innerHTML = '';
+    paypalRendered = false;
+  }
+  paypal.Buttons({
+    style: { color:'blue', shape:'rect', label:'pay', height:44 },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: { value: amount },
+          description: 'ITCertSurePass — ' + (document.getElementById('rCert').value === 'bundle' ? 'All Certs Bundle' : document.getElementById('rCert').value.toUpperCase() + ' Question Bank')
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        console.log('PayPal payment captured:', details.id);
+        showToast('PayPal payment successful!', 'success');
+        onSuccess();
+      });
+    },
+    onError: function(err) {
+      console.error('PayPal error:', err);
+      showToast('PayPal encountered an error. Please try card payment.', 'err');
+    },
+    onCancel: function() {
+      showToast('PayPal payment cancelled.', '');
+    }
+  }).render('#paypal-button-container').then(function() {
+    paypalRendered = true;
+  });
+}
+
+// ═══════════════════ PAY METHOD TOGGLE ═══════════════════
+function selPay(method) {
+  document.getElementById('pmCC').classList.toggle('active', method === 'cc');
+  document.getElementById('pmPP').classList.toggle('active', method === 'paypal');
+  document.getElementById('ccFields').classList.toggle('hidden', method !== 'cc');
+  document.getElementById('ppFields').classList.toggle('hidden', method !== 'paypal');
+  document.getElementById('payBtn').classList.toggle('hidden', method !== 'cc');
+
+  if (method === 'cc') {
+    // Ensure Stripe card is mounted
+    initStripe();
+  }
+
+  if (method === 'paypal') {
+    var cert = document.getElementById('rCert').value;
+    var amount = cert === 'bundle' ? '49.99' : '9.99';
+    loadPayPalSDK(amount, finishPayment);
+  }
+}
+
+// ═══════════════════ STRIPE PAYMENT ═══════════════════
+function doPay() {
+  var name = document.getElementById('cName').value.trim();
+  var zip  = document.getElementById('cZIP').value.trim();
+  var err  = document.getElementById('rErr2');
+  var errCard = document.getElementById('stripe-card-errors');
+  err.style.display = 'none';
+
+  if (!name) {
+    err.style.display = 'block';
+    err.textContent = 'Please enter the name on your card.';
+    return;
+  }
+  if (!zip) {
+    err.style.display = 'block';
+    err.textContent = 'Please enter your billing ZIP / postal code.';
+    return;
+  }
+
+  var btn = document.getElementById('payBtn');
+  btn.textContent = 'Processing...';
+  btn.disabled = true;
+
+  var cert    = document.getElementById('rCert').value;
+  var amount  = cert === 'bundle' ? 4999 : 999; // in cents
+  var email   = document.getElementById('rEmail').value.trim();
+
+  // ─── Create a PaymentIntent via Stripe's client-only confirmCardPayment ───
+  // For a pure front-end integration we use stripe.createPaymentMethod
+  // then charge via a backend. Since this is a static site we use
+  // Stripe's test mode with createToken for demo, OR
+  // you wire this to your own /create-payment-intent endpoint.
+  //
+  // OPTION A: Full backend endpoint (recommended for production):
+  //   POST /create-payment-intent → returns { clientSecret }
+  //   then stripeInstance.confirmCardPayment(clientSecret, { payment_method: { card: stripeCard } })
+  //
+  // OPTION B (shown below): Stripe Token — works without backend for demo/test
+  //   Then send token to your server to charge via stripe.charges.create()
+
+  stripeInstance.createToken(stripeCard, {
+    name: name,
+    address_zip: zip
+  }).then(function(result) {
+    if (result.error) {
+      errCard.textContent = result.error.message;
+      errCard.style.display = 'block';
+      btn.innerHTML = '🔒 Pay <span id="payBtnAmt">' + (cert === 'bundle' ? '$49.99' : '$9.99') + '</span> — Activate Account';
+      btn.disabled = false;
+    } else {
+      // ✅ Token created successfully
+      var token = result.token;
+      console.log('Stripe token:', token.id);
+      // In production: send token.id to your backend → stripe.charges.create(amount, currency, source:token.id)
+      // For now we complete the account creation client-side (test mode):
+      processStripeToken(token, amount, email, cert, btn);
+    }
+  });
+}
+
+function processStripeToken(token, amount, email, cert, btn) {
+  // ── PRODUCTION: Replace this block with a fetch() to your backend ──
+  // fetch('/charge', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ token: token.id, amount, email, cert })
+  // }).then(r => r.json()).then(data => {
+  //   if (data.success) finishPayment();
+  //   else showError(data.error);
+  // });
+
+  // ── TEST MODE: Simulate successful charge for demonstration ──
+  console.log('Stripe charge would be:', {
+    token: token.id,
+    amount_cents: amount,
+    email: email,
+    cert: cert,
+    card_last4: token.card.last4,
+    card_brand: token.card.brand
+  });
+
+  showToast('Card ending in ' + token.card.last4 + ' charged successfully!', 'success');
+  btn.innerHTML = '🔒 Pay — Activate Account';
+  btn.disabled = false;
+  finishPayment();
+}
+
+// Legacy helpers kept for compatibility
+function fmtCard(el) {}
+function fmtExp(el) {}
+
+function finishPayment() {
+  var first=document.getElementById('rFirst').value.trim();
+  var last =document.getElementById('rLast').value.trim();
+  var email=document.getElementById('rEmail').value.trim();
+  var certVal = document.getElementById('rCert').value;
+  var user = {name:first+' '+last, email:email, paid:true, certs:[certVal==='bundle'?'all':certVal], purchasedAt:new Date().toISOString()};
+  setUser(user);
+  document.getElementById('sName').textContent = first;
+  showRegStep(3);
+  showToast('Payment successful! Welcome to ITCertSurePass.','success');
+}
+
+// ═══════════════════ NOTIFY ═══════════════════
+function doNotify() {
+  var email = document.getElementById('notifyEmail').value.trim();
+  if (!email || !email.includes('@')) { showToast('Please enter a valid email.','err'); return; }
+  closeModal('notifyModal');
+  showToast('You\'re on the list! We\'ll notify you when it launches.','success');
+}
+
+// ═══════════════════ DASHBOARD ═══════════════════
+function buildDashboard() {
+  if (!APP.user) { showView('landing'); return; }
+  document.getElementById('dashGreet').textContent = APP.user.name.split(' ')[0];
+  var certKeys = APP.user.certs && APP.user.certs.includes('all') ? Object.keys(CERTS) : (APP.user.certs||['cissp']);
+  document.getElementById('dashAccess').textContent = 'You have access to: ' + certKeys.map(function(k){return CERTS[k]?CERTS[k].name:k;}).join(', ');
+
+  // Build cert selector grid
+  var grid = document.getElementById('dashCertGrid');
+  grid.innerHTML = '';
+  Object.keys(CERTS).forEach(function(k){
+    var c = CERTS[k];
+    var hasAccess = certKeys.includes('all') || certKeys.includes(k);
+    var div = document.createElement('div');
+    div.className = 'cert-sel-btn' + (!hasAccess||!c.available?' coming-soon':'') + (APP.activeCert===k?' active':'');
+    div.innerHTML = '<div class="cs-logo" style="background:'+c.color+'">'+c.name.substring(0,3)+'</div><div class="cs-name">'+c.name+'</div>' + (!c.available?'<div class="coming-label">Coming Soon</div>':(!hasAccess?'<div class="coming-label">Not purchased</div>':''));
+    if (hasAccess && c.available) div.onclick = (function(key){ return function(){ APP.activeCert=key; document.querySelectorAll('.cert-sel-btn').forEach(function(b){b.classList.remove('active');}); div.classList.add('active'); var qc=CERTS[key].qcount||770; document.getElementById('dTotal').textContent=qc; }; })(k);
+    grid.appendChild(div);
+  });
+
+  var qc = CERTS[APP.activeCert]?CERTS[APP.activeCert].qcount:770;
+  document.getElementById('dTotal').textContent = qc;
+  updateDashStats();
+}
+
+function updateDashStats() {
+  if (!APP.history.length) return;
+  var total = APP.history.reduce(function(s,r){return s+r.total;},0);
+  var cor   = APP.history.reduce(function(s,r){return s+r.correct;},0);
+  var avg   = Math.round(APP.history.reduce(function(s,r){return s+r.pct;},0)/APP.history.length);
+  document.getElementById('dAttempted').textContent = total;
+  document.getElementById('dCorrect').textContent   = cor;
+  document.getElementById('dAvg').textContent       = avg+'%';
+}
+
+function startExamFromDash(count) {
+  if (!APP.user || !APP.user.paid) { openModal('registerModal'); return; }
+  if (count) startFullExam(count);
+  else startFullExam(25);
+}
+
+// ═══════════════════ MODALS ═══════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  if (id === 'registerModal') {
+    showRegStep(1);
+  }
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(function(o){
+  o.addEventListener('click',function(e){ if(e.target===o) o.classList.remove('open'); });
+});
+
+// ═══════════════════ FAQ ═══════════════════
+function toggleFAQ(el) {
+  var item = el.parentElement;
+  document.querySelectorAll('.faq-item').forEach(function(i){ if(i!==item) i.classList.remove('open'); });
+  item.classList.toggle('open');
+}
+
+// ═══════════════════ TOAST ═══════════════════
+function showToast(msg, type) {
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+  setTimeout(function(){ t.className='toast'; }, 3500);
+}
+
+// ═══════════════════ INIT ═══════════════════
+loadUser();
+</script>
+</body>
+</html>
