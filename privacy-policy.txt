@@ -1,0 +1,39 @@
+Privacy Policy — Civics 100
+
+Last updated: [fill in the date you publish]
+
+Civics 100 ("the app") does not collect, transmit, store remotely, or share
+any personal information.
+
+What the app stores, and where
+- Your "mastered" question checklist and your practice-quiz score history
+  are stored only on your device, using Android's local app storage
+  (SharedPreferences) and your browser's local storage if you use the web
+  version.
+- None of this data is sent to any server. The app has no backend, no
+  account system, and no analytics or tracking of any kind.
+- Uninstalling the app deletes this data permanently, since it never
+  existed anywhere else.
+
+Third parties
+- The app does not include ads, ad networks, or third-party analytics
+  SDKs.
+- The app does not share data with USCIS, the U.S. government, or any
+  other party, because it does not collect any data to share.
+
+Content source
+- Civics test questions are sourced from official USCIS publications
+  (Civics Questions and Answers, 2025 version M-1778 and 2008 version),
+  which are U.S. government public-domain works.
+
+Affiliation
+- This app is an independent study tool and is not affiliated with,
+  endorsed by, or sponsored by USCIS or the U.S. government.
+
+Changes to this policy
+- If this policy changes, the updated version will be posted at this same
+  page with a new "Last updated" date.
+
+Contact
+- [Add your contact email here — Play Console requires a way for users to
+  reach you about privacy questions.]
